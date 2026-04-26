@@ -11,6 +11,8 @@ services:
 
   server:
     build: ./server
+    env_file:
+      - ./server/.env
     networks:
       - SchoolExpertice-net
     depends_on:
