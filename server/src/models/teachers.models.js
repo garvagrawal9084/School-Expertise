@@ -9,7 +9,7 @@ const teacherSchema = new mongoose.Schema({
     unique: true
   },
 
-  bio: String,bio: {
+  bio: {
     type: String,
     maxlength: 300
   },
