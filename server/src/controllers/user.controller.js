@@ -1,5 +1,5 @@
 import { User } from "../models/users.models.js";
-import { TeacherRequest } from "../models/teacherReaquest.models.js";
+import { TeacherRequest } from "../models/teacherRequest.models.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
