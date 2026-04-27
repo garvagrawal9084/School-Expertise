@@ -17,9 +17,10 @@ app.use(cookieParser());
 // routes
 
 import { healthRouter } from "./Routes/health.routes.js";
+import { userRouter } from "./Routes/user.router.js";
 
 app.use("/api/v1/check", healthRouter);
-
+app.use("/api/v1/users" , userRouter) ; 
 
 
 // error handler (MUST be last)
