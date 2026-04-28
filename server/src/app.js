@@ -1,6 +1,7 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import teacherRoutes from "./Routes/teacher.routes.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ import { userRouter } from "./Routes/user.routes.js";
 
 app.use("/api/v1/check", healthRouter);
 app.use("/api/v1/users" , userRouter) ; 
+app.use("/api/v1/teacher", teacherRoutes);
 
 
 // error handler (MUST be last)
