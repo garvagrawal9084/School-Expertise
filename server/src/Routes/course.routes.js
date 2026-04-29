@@ -4,7 +4,7 @@ import { getCourse, getTeachersByCategory, getTeachersFromCourse } from "../cont
 const courseRouter = Router() ; 
 
 courseRouter.get("/" , getCourse) ;
-courseRouter.get("/:id" , getTeachersFromCourse) ; 
 courseRouter.get("/category/:category" , getTeachersByCategory) ; 
+courseRouter.get("/:id" , getTeachersFromCourse) ; 
 
 export { courseRouter }

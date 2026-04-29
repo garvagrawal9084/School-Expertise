@@ -60,6 +60,8 @@ const verifyTeacher = (req , res, next) => {
     if(req.user.role !== "TEACHER") {
         throw new ApiError(403 , "Forbidden: Teacher access required")
     }
+
+    next() ;
 }
 
 

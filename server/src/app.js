@@ -20,11 +20,13 @@ import { healthRouter } from "./Routes/health.routes.js";
 import { userRouter } from "./Routes/user.routes.js";
 import { adminRouter } from "./Routes/admin.routes.js";
 import { courseRouter } from "./Routes/course.routes.js";
+import { teacherRouter } from "./Routes/teacher.routes.js";
 
 app.use("/api/v1/check", healthRouter);
 app.use("/api/v1/users" , userRouter) ; 
 app.use("/api/v1/admin" , adminRouter) ;
 app.use("/api/v1/courses" , courseRouter) ; 
+app.use("/api/v1/teacher" , teacherRouter) ; 
 
 
 // error handler (MUST be last)
