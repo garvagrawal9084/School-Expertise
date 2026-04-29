@@ -31,12 +31,12 @@ const teacherSchema = new mongoose.Schema({
   },
 
   courses: [
-  {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "courses"
-  }
-]
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course"
+    }
+  ]
 
 }, { timestamps: true });
 
-export const Teacher =  mongoose.model("Teacher", teacherSchema);
+export const Teacher = mongoose.model("Teacher", teacherSchema);
