@@ -1,32 +1,15 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Courses from "./pages/admin/Courses";
-import ProtectedRoute from "./routes/ProtectedRoute";
+const Toast = ({ message, onClose }) => {
+  useEffect(() => {
+    setTimeout(onClose, 2000);
+  }, []);
 
-function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-
-        <Route
-          path="/admin/courses"
-          element={
-            <ProtectedRoute role="ADMIN">
-              <Courses />
-            </ProtectedRoute>
-          }
-        />
-
-      </Routes>
-    </BrowserRouter>
+    <div className="fixed bottom-4 right-4 bg-indigo-600 text-white px-4 py-2 rounded">
+      {message}
+    </div>
   );
-}
+};
 
-export default App;
+export default Toast;

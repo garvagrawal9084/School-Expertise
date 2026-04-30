@@ -8,14 +8,13 @@ const API = axios.create({
 API.interceptors.response.use(
   res => res,
   async (error) => {
-    const originalRequest = error.config;
+    const original = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
+    if (error.response?.status === 401 && !original._retry) {
+      original._retry = true;
       try {
         await API.post("/users/refresh-token");
-        return API(originalRequest);
+        return API(original);
       } catch {
         window.location.href = "/login";
       }
