@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../api/api";
+import Modal from "./ui/Modal";
+import Button from "./ui/Button";
 
 const SuggestTeacherModal = ({ course, onClose }) => {
   const [teachers, setTeachers] = useState([]);
@@ -20,31 +22,43 @@ const SuggestTeacherModal = ({ course, onClose }) => {
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <h3>Assign Teacher</h3>
-        <p>{course.title}</p>
+    <Modal onClose={onClose}>
+      <h2 className="font-bold text-lg mb-2">Assign Teacher</h2>
+      <p className="text-sm mb-4">{course.title}</p>
 
-        {teachers.length === 0 ? (
-          <p>No teachers found</p>
-        ) : (
-          teachers.map(t => (
-            <div key={t._id} className="card">
-              <h4>{t.userId.name}</h4>
-              <p>{t.userId.email}</p>
-              <p>{t.bio}</p>
-              <p>{t.specialization.join(", ")}</p>
+      {teachers.length === 0 ? (
+        <p>No teachers available</p>
+      ) : (
+        teachers.map((t, index) => (
+        <div key={t._id} className="border p-3 rounded mb-2 relative">
 
-              <button onClick={() => assign(t._id)}>
-                Assign
-              </button>
+            {index === 0 && (
+            <span className="absolute top-2 right-2 text-xs bg-green-500 text-white px-2 py-1 rounded">
+                Recommended
+            </span>
+            )}
+
+            <h4 className="font-semibold">{t.userId.name}</h4>
+            <p className="text-sm text-gray-500">{t.bio}</p>
+
+            <div className="flex gap-2 mt-2 flex-wrap">
+            {t.specialization.map((s, i) => (
+                <span key={i} className="bg-indigo-100 text-indigo-600 px-2 py-1 text-xs rounded">
+                {s}
+                </span>
+            ))}
             </div>
-          ))
-        )}
 
-        <button onClick={onClose}>Close</button>
-      </div>
-    </div>
+            <button
+            onClick={() => assign(t._id)}
+            className="mt-2 bg-indigo-600 text-white px-3 py-1 rounded"
+            >
+            Assign
+            </button>
+        </div>
+        ))
+      )}
+    </Modal>
   );
 };
 

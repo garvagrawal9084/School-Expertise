@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../../api/api";
+import Card from "../../components/ui/Card";
+import Button from "../../components/ui/Button";
 import SuggestTeacherModal from "../../components/SuggestTeacherModal";
 
 const Courses = () => {
@@ -13,19 +15,15 @@ const Courses = () => {
   }, []);
 
   return (
-    <div className="container">
-      <h2>Admin Courses</h2>
-
-      <div className="grid">
-        {courses.map(c => (
-          <div key={c._id} className="card">
-            <h3>{c.title}</h3>
-            <button onClick={() => setSelected(c)}>
-              Assign Teacher
-            </button>
-          </div>
-        ))}
-      </div>
+    <div className="p-6 grid md:grid-cols-3 gap-4">
+      {courses.map(c => (
+        <Card key={c._id}>
+          <h3>{c.title}</h3>
+          <Button onClick={() => setSelected(c)}>
+            Assign Teacher
+          </Button>
+        </Card>
+      ))}
 
       {selected && (
         <SuggestTeacherModal
