@@ -71,7 +71,7 @@ const getTeachersByCategory = asyncHandler(async (req, res) => {
     {
         $lookup: {
             from: "teachers",
-            ocalField: "_id",
+            localField: "_id",
             foreignField: "_id",
             as: "teacher"
         }

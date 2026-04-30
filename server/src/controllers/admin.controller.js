@@ -248,11 +248,14 @@ export const suggestTeacher = asyncHandler(async (req , res) => {
   }
 
   const suggestedTeacher = await Teacher.find({
-    specialization: {$in : course.category}
-  }).populate({
-    path: "userId" , 
-    select : "name email"
-  });
+    specialization: { $in: [course.category] },
+    _id: { $nin: course.teachers }
+  })
+  .populate({
+    path: "userId",
+    select: "name email"
+  })
+  .sort({ experience: -1 });
 
   return res.status(200).json(new ApiResponse(200 , suggestedTeacher , "Suggested Teacher fetched")) ; 
 })
