@@ -1,25 +1,36 @@
-import { useState , useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Courses from "./pages/admin/Courses";
+import CourseDetail from "./pages/CourseDetail";
+
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 function App() {
-  const [data, setData] = useState()
-
-  useEffect(() => {
-    fetch("/api/message")
-    .then((res) => res.json())
-    .then((data) => setData(data.message)) ; 
-  }, [])
-  
-
   return (
-    <>
-      <h1>Hello from School Expertise  frontend</h1>
-      <h3>{data}</h3>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+
+        <Route path="/" element={<Home />} />
+        <Route path="/courses/:id" element={<CourseDetail />} />
+
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        <Route
+          path="/admin/courses"
+          element={
+            <ProtectedRoute role="ADMIN">
+              <Courses />
+            </ProtectedRoute>
+          }
+        />
+
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
