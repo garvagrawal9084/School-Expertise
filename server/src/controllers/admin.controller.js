@@ -6,9 +6,10 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/AsyncHandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { isValidId } from "../utils/validate.js";
+import mongoose from "mongoose";
 
 
-// ✅ Added .lean() (performance)
+
 export const getTeachers = asyncHandler(async (req, res) => {
 
   const teachers = await Teacher.find()
@@ -16,14 +17,13 @@ export const getTeachers = asyncHandler(async (req, res) => {
     .populate("courses", "title")
     .lean(); // 🔥 optimization
 
-  // ❌ removed 404 for empty list (better API practice)
+
   return res.status(200).json(
     new ApiResponse(200, teachers, "Fetched teacher successfully")
   );
 });
 
 
-// ✅ Optimized DB calls using Promise.all
 export const deleteTeacher = asyncHandler(async (req, res) => {
 
   const { id } = req.params;
@@ -49,7 +49,7 @@ export const deleteTeacher = asyncHandler(async (req, res) => {
 });
 
 
-// ✅ Trim once (avoid repeated calls)
+
 export const createCourse = asyncHandler(async (req, res) => {
 
   let { title, description ,category } = req.body;
@@ -79,7 +79,6 @@ export const createCourse = asyncHandler(async (req, res) => {
 });
 
 
-// ✅ Added .lean()
 export const getCourses = asyncHandler(async (req, res) => {
 
   const courses = await Course.find().populate({
@@ -88,7 +87,7 @@ export const getCourses = asyncHandler(async (req, res) => {
       path: "userId",
       select: "name email",
     },
-  }).lean(); // 🔥 optimization
+  }).lean(); 
 
   return res.status(200).json(
     new ApiResponse(200, courses, "Course fetched successfully")
@@ -96,7 +95,7 @@ export const getCourses = asyncHandler(async (req, res) => {
 });
 
 
-// ✅ Reduced duplicate checks (minor optimization)
+
 export const assignTeacher = asyncHandler(async (req, res) => {
 
   const { teacherId, courseId } = req.body;
@@ -136,7 +135,6 @@ export const assignTeacher = asyncHandler(async (req, res) => {
 });
 
 
-// ✅ Added .lean()
 export const getPendingRequests = asyncHandler(async (req, res) => {
 
   const requests = await TeacherRequest.find({ status: "PENDING" })
@@ -149,7 +147,7 @@ export const getPendingRequests = asyncHandler(async (req, res) => {
 });
 
 
-// ✅ Minor optimization (early validation remains same)
+
 export const approveTeacher = asyncHandler(async (req, res) => {
   const requestId = req.params.id;
 
@@ -173,7 +171,7 @@ export const approveTeacher = asyncHandler(async (req, res) => {
   user.role = "TEACHER";
   await user.save();
 
-  // ✅ Prevent duplicate creation (minimal safety)
+  
   const existingTeacher = await Teacher.findOne({ userId: user._id });
   if (!existingTeacher) {
     await Teacher.create({
@@ -194,7 +192,7 @@ export const approveTeacher = asyncHandler(async (req, res) => {
 });
 
 
-// (no change needed)
+
 export const rejectTeacher = asyncHandler(async (req, res) => {
   const requestId = req.params.id;
 
@@ -221,7 +219,6 @@ export const rejectTeacher = asyncHandler(async (req, res) => {
 });
 
 
-// ❌ fixed syntax bug only
 export const getCategory = (req , res) => {
   const category = [
     "AI","ML","Deep Learning","NLP",
@@ -236,3 +233,26 @@ export const getCategory = (req , res) => {
 
   return res.status(200).json(new ApiResponse(200 , category , "Categories"));
 };
+
+export const suggestTeacher = asyncHandler(async (req , res) => {
+  const {courseId} = req.params; 
+
+  if(!mongoose.Types.ObjectId.isValid(courseId)){
+    throw new ApiError(400 , "Invalid course id") ; 
+  }
+
+  const course = await Course.findById(courseId) ; 
+
+  if(!course){
+    throw new ApiError(404 , "Course Not found") ; 
+  }
+
+  const suggestedTeacher = await Teacher.find({
+    specialization: {$in : course.category}
+  }).populate({
+    path: "userId" , 
+    select : "name email"
+  });
+
+  return res.status(200).json(new ApiResponse(200 , suggestedTeacher , "Suggested Teacher fetched")) ; 
+})

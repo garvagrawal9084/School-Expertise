@@ -11,6 +11,7 @@ import {
   rejectTeacher,
   deleteTeacher,
   getCategory,
+  suggestTeacher,
 } from "../controllers/admin.controller.js";
 
 const adminRouter = Router();
@@ -25,4 +26,5 @@ adminRouter.post("/approve/:id", verifyJWT, verifyAdmin, approveTeacher);
 adminRouter.post("/reject/:id", verifyJWT, verifyAdmin, rejectTeacher);
 adminRouter.post("/create/", verifyJWT,verifyAdmin,createCourse);
 adminRouter.get("/category" , verifyJWT , verifyAdmin , getCategory)
+adminRouter.get("/suggestion/:courseId" , verifyJWT , verifyAdmin , suggestTeacher) ; 
 export { adminRouter };
