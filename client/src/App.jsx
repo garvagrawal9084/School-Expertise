@@ -1,7 +1,14 @@
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
-import Navbar from "./components/layout/Navbar";
+// LAYOUTS
+import MainLayout from "./components/layout/MainLayout";
+import AdminLayout from "./components/layout/AdminLayout";
 
 // PUBLIC PAGES
 import Home from "./pages/Home";
@@ -9,105 +16,74 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
+import CourseTeachers from "./pages/CourseTeachers";
 
 // ADMIN PAGES
 import Dashboard from "./pages/admin/Dashboard";
 import ManageCourses from "./pages/admin/ManageCourses";
 import TeacherRequests from "./pages/admin/TeacherRequests";
 import AddCourse from "./pages/admin/AddCourse";
+import AssignTeacher from "./pages/admin/AssignTeacher";
 
 // TEACHER PAGE
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
+import TeacherProfile from "./pages/TeacherProfile";
 
 // ROUTE PROTECTION
 import AdminRoute from "./routes/AdminRoute";
 import TeacherRoute from "./routes/TeacherRoute";
 
-// 🔥 Layout wrapper to control Navbar
-const Layout = ({ children }) => {
-  const location = useLocation();
-
-  const hideNavbar = ["/login", "/signup"].includes(location.pathname);
-
-  return (
-    <>
-      {!hideNavbar && <Navbar />}
-      {children}
-    </>
-  );
-};
-
 function App() {
   return (
     <Router>
+      {/* TOASTER */}
+      <Toaster position="top-right" />
 
-      <Layout>
-        {/* GLOBAL TOAST */}
-        <Toaster position="top-right" />
+      <Routes>
 
-        <Routes>
-
-          {/* PUBLIC */}
+        {/* ================= PUBLIC ================= */}
+        <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-
           <Route path="/courses" element={<Courses />} />
           <Route path="/courses/:id" element={<CourseDetail />} />
+          <Route path="/courses/:id/teachers" element={<CourseTeachers />} />
+          <Route path="/teacher/:id" element={<TeacherProfile />} />
+        </Route>
 
-          {/* 🔐 ADMIN */}
-          <Route
-            path="/admin"
-            element={
-              <AdminRoute>
-                <Dashboard />
-              </AdminRoute>
-            }
-          />
+        {/* ================= AUTH ================= */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
 
-          <Route
-            path="/admin/courses"
-            element={
-              <AdminRoute>
-                <ManageCourses />
-              </AdminRoute>
-            }
-          />
+        {/* ================= ADMIN ================= */}
+        <Route
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route path="/admin" element={<Dashboard />} />
+          <Route path="/admin/courses" element={<ManageCourses />} />
+          <Route path="/admin/add-course" element={<AddCourse />} />
+          <Route path="/admin/teacher-requests" element={<TeacherRequests />} />
+          <Route path="/admin/assign/:courseId" element={<AssignTeacher />} />
+        </Route>
 
-          <Route
-            path="/admin/teacher-requests"
-            element={
-              <AdminRoute>
-                <TeacherRequests />
-              </AdminRoute>
-            }
-          />
+        {/* ================= TEACHER ================= */}
+        <Route
+          element={
+            <TeacherRoute>
+              <MainLayout />
+            </TeacherRoute>
+          }
+        >
+          <Route path="/teacher" element={<TeacherDashboard />} />
+        </Route>
 
-          {/* 🔐 TEACHER */}
-          <Route
-            path="/teacher"
-            element={
-              <TeacherRoute>
-                <TeacherDashboard />
-              </TeacherRoute>
-            }
-          />
+        {/* ================= REDIRECT ================= */}
+        <Route path="/admin/dashboard" element={<Navigate to="/admin" />} />
 
-          {/* Redirect old route */}
-          <Route path="/admin/dashboard" element={<Navigate to="/admin" />} />
-
-          <Route
-  path="/admin/add-course"
-  element={
-    <AdminRoute>
-      <AddCourse />
-    </AdminRoute>
-  }
-/>
-
-        </Routes>
-      </Layout>
-
+      </Routes>
     </Router>
   );
 }

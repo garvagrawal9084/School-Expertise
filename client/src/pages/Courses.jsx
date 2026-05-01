@@ -10,7 +10,7 @@ const Courses = () => {
   const fetchCourses = async () => {
     try {
       const res = await API.get("/courses");
-      setCourses(res.data.data);
+      setCourses(res.data?.data || []);
     } catch (err) {
       console.error(err);
       toast.error("Failed to load courses");
@@ -24,63 +24,70 @@ const Courses = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-6">
-      <div className="max-w-6xl mx-auto px-6 py-8">
+    <div className="max-w-7xl mx-auto px-6 py-8">
+      <h1 className="text-2xl font-bold mb-8">Courses</h1>
 
-        {/* HEADER */}
-        <h1 className="text-2xl font-bold mb-6">
-          Courses
-        </h1>
+      {loading ? (
+        <p className="text-gray-500">Loading...</p>
+      ) : courses.length === 0 ? (
+        <p className="text-gray-500">No courses found</p>
+      ) : (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {courses.map((course) => (
+            <div
+              key={course._id}
+              className="bg-white dark:bg-slate-900 border rounded-2xl p-5 shadow hover:shadow-lg transition"
+            >
+              {/* CATEGORY */}
+              <div className="flex gap-2 mb-3 flex-wrap">
+                {course.category?.map((cat) => (
+                  <span
+                    key={cat}
+                    className="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full"
+                  >
+                    {cat}
+                  </span>
+                ))}
+              </div>
 
-        {/* LOADING / EMPTY */}
-        {loading ? (
-          <p className="text-gray-500">Loading...</p>
-        ) : courses.length === 0 ? (
-          <p className="text-gray-500">No courses found</p>
-        ) : (
+              {/* TITLE */}
+              <h2 className="text-lg font-semibold mb-2">{course.title}</h2>
 
-          /* GRID */
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {/* DESCRIPTION */}
+              <p className="text-sm text-gray-500 mb-4 line-clamp-3">
+                {course.description || "No description available"}
+              </p>
 
-            {courses.map((course) => (
-              <Link
-                key={course._id}
-                to={`/courses/${course._id}`}
-                className="block"
-              >
-                <div className="bg-white dark:bg-slate-900 border rounded-xl p-5 shadow hover:shadow-md hover:-translate-y-1 transition cursor-pointer">
+              {/* FOOTER */}
+              <div className="flex justify-between items-center mt-4">
+                {/* COUNT */}
+                <span className="text-xs text-gray-400">
+                  {course.teachers?.length || 0} Teachers
+                </span>
 
-                  {/* COURSE NAME */}
-                  <h2 className="text-lg font-semibold mb-2">
-                    {course.name}
-                  </h2>
+                {/* ACTION BUTTONS */}
+                <div className="flex gap-2">
+                  {/* VIEW TEACHERS */}
+                  <Link
+                    to={`/courses/${course._id}/teachers`}
+                    className="bg-gray-200 text-gray-700 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-300 transition"
+                  >
+                    View Teachers
+                  </Link>
 
-                  {/* DESCRIPTION */}
-                  <p className="text-sm text-gray-500 mb-4 line-clamp-3">
-                    {course.description || "No description available"}
-                  </p>
-
-                  {/* TEACHERS */}
-                  {course.teachers?.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {course.teachers.map((teacher) => (
-                        <span
-                          key={teacher._id}
-                          className="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded"
-                        >
-                          {teacher.name}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
+                  {/* VIEW COURSE */}
+                  <Link
+                    to={`/courses/${course._id}`}
+                    className="bg-indigo-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-indigo-700 transition"
+                  >
+                    View
+                  </Link>
                 </div>
-              </Link>
-            ))}
-
-          </div>
-        )}
-      </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
