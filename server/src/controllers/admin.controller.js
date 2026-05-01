@@ -12,10 +12,9 @@ import mongoose from "mongoose";
 
 export const getTeachers = asyncHandler(async (req, res) => {
 
-  const teachers = await Teacher.find()
-    .populate("userId", "name email")
-    .populate("courses", "title")
-    .lean(); // 🔥 optimization
+  const teachers = await User.find({ role: "TEACHER" })
+  .select("name email")
+  .lean();// 🔥 optimization
 
 
   return res.status(200).json(
@@ -81,56 +80,37 @@ export const createCourse = asyncHandler(async (req, res) => {
 
 export const getCourses = asyncHandler(async (req, res) => {
 
-  const courses = await Course.find().populate({
-    path: "teachers",
-    populate: {
-      path: "userId",
-      select: "name email",
-    },
-  }).lean(); 
+  const courses = await Course.find()
+  .populate("teachers", "name email") 
+  .lean();
 
   return res.status(200).json(
-    new ApiResponse(200, courses, "Course fetched successfully")
+    new ApiResponse(200, courses, "Courses fetched successfully")
   );
 });
 
 
 
 export const assignTeacher = asyncHandler(async (req, res) => {
+  const { teacherIds, courseId } = req.body;
 
-  const { teacherId, courseId } = req.body;
-
-  if (!teacherId || !courseId) {
-    throw new ApiError(400, "Teacher ID and Course ID are required");
+  if (!teacherIds || !courseId) {
+    throw new ApiError(400, "Teacher IDs and Course ID are required");
   }
 
-  if (!isValidId(teacherId) || !isValidId(courseId)) {
-    throw new ApiError(400, "Invalid ID format");
-  }
-
-  const teacher = await Teacher.findById(teacherId);
   const course = await Course.findById(courseId);
-
-  if (!teacher) throw new ApiError(404, "Teacher not found");
   if (!course) throw new ApiError(404, "Course not found");
 
-  // 🔥 slight optimization (avoid repeated toString)
-  const courseExists = teacher.courses.some(id => id.equals(courseId));
-  const teacherExists = course.teachers.some(id => id.equals(teacherId));
-
-  if (!courseExists) {
-    teacher.courses.push(courseId);
+  for (const teacherId of teacherIds) {
+    if (!course.teachers.includes(teacherId)) {
+      course.teachers.push(teacherId);
+    }
   }
 
-  if (!teacherExists) {
-    course.teachers.push(teacherId);
-  }
-
-  await teacher.save();
   await course.save();
 
   return res.status(200).json(
-    new ApiResponse(200, null, "Teacher assigned successfully")
+    new ApiResponse(200, null, "Teachers assigned successfully")
   );
 });
 

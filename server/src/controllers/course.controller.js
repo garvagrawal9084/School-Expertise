@@ -4,42 +4,27 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import mongoose from "mongoose";
 import { ApiError } from "../utils/ApiError.js";
 
-const getCourse = asyncHandler(async (req , res) => {
-    const courses = await Course.find({}).select("_id title description") ;
+const getCourse = asyncHandler(async (req, res) => {
+  const courses = await Course.find({})
+    .select("_id title description category teachers");
 
-    return res.status(200).json(new ApiResponse(200 , courses , "Courses Fetch Successfully")) ; 
-})
+  return res.status(200).json(
+    new ApiResponse(200, courses, "Courses Fetch Successfully")
+  );
+});
 
 const getTeachersFromCourse = asyncHandler(async (req, res) => {
-    const courseId = req.params.id;
-
-    if (!mongoose.Types.ObjectId.isValid(courseId)) {
-        throw new ApiError(400, "Invalid course id");
-    }
-
-    const course = await Course.findById(courseId)
-        .populate({
-            path: "teachers",
-            select: "bio specialization",
-            populate: {
-            path: "userId",
-            select: "name"
-        }
+  const course = await Course.findById(req.params.id)
+    .populate({
+      path: "teachers",
+      select: "name email avatar"
     });
 
-    if (!course) {
-        throw new ApiError(404, "Course not found");
-    }
+  if (!course) throw new ApiError(404, "Course not found");
 
-    const teachers = course.teachers.map(t => ({
-        name: t.userId.name,
-        bio: t.bio,
-        specialization: t.specialization
-    }));
-
-    return res.status(200).json(
-        new ApiResponse(200, teachers, "Teachers fetched successfully")
-    );
+  return res.status(200).json(
+    new ApiResponse(200, course.teachers, "Teachers fetched")
+  );
 });
 
 const getTeachersByCategory = asyncHandler(async (req, res) => {
@@ -109,5 +94,31 @@ const getTeachersByCategory = asyncHandler(async (req, res) => {
     );
 });
 
+const getCourseById = asyncHandler(async (req, res) => {
+  const course = await Course.findById(req.params.id)
+    .populate({
+      path: "teachers",
+      select: "name email avatar"   // ✅ DIRECT FROM USER
+    });
 
-export {getCourse , getTeachersFromCourse , getTeachersByCategory} ;
+  if (!course) throw new ApiError(404, "Course not found");
+
+  const formatted = {
+    _id: course._id,
+    title: course.title,
+    description: course.description,
+    category: course.category,
+    teachers: course.teachers.map(t => ({
+      _id: t._id,
+      name: t.name,
+      email: t.email,
+      avatar: t.avatar
+    }))
+  };
+
+  return res.status(200).json(
+    new ApiResponse(200, formatted, "Course fetched")
+  );
+});
+
+export {getCourse , getTeachersFromCourse , getTeachersByCategory , getCourseById} ;

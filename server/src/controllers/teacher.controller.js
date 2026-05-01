@@ -9,25 +9,37 @@ import { destroyImageOnCloudinary, uploadOnCloudinary } from "../utils/cloudinar
 
 
 export const getProfile = asyncHandler(async (req, res) => {
+  let teacher = await Teacher.findOne({ userId: req.user._id })
+    .populate("userId", "name email avatar");
 
-    const teacher = await Teacher.findOne({
-        userId: req.user._id
-    }).populate("userId", "name avatar").lean();
+  // ✅ AUTO CREATE IF NOT EXISTS
+  if (!teacher) {
+    teacher = await Teacher.create({
+      userId: req.user._id,
+      bio: "",
+      experience: 0,
+      specialization: []
+    });
 
-    if (!teacher) {
-        throw new ApiError(404, "Teacher not found");
-    }
+    teacher = await teacher.populate("userId", "name email avatar");
+  }
 
-    return res.json(
-        new ApiResponse(200, teacher, "Profile fetched")
-    );
+  return res.status(200).json(
+    new ApiResponse(200, {
+      name: teacher.userId.name,
+      email: teacher.userId.email,
+      avatar: teacher.userId.avatar,
+      bio: teacher.bio,
+      experience: teacher.experience,
+      specialization: teacher.specialization
+    })
+  );
 });
 
 
 export const updateProfile = asyncHandler(async (req, res) => {
 
     const userId = req.user._id;
-
     const { bio, experience, specialization } = req.body;
 
     const hasBio = typeof bio === "string" && bio.trim().length > 0;
@@ -46,41 +58,36 @@ export const updateProfile = asyncHandler(async (req, res) => {
 
     if (hasBio) updates.bio = bio.trim();
     if (hasExperience) updates.experience = experience;
-    if (hasSpecialization) updates.specialization = specialization.map(s => s.trim());
+    if (hasSpecialization) {
+        updates.specialization = specialization.map(s => s.trim());
+    }
 
     const updatedTeacher = await Teacher.findOneAndUpdate(
         { userId },
         { $set: updates },
-        { new: true, runValidators: true }
+        {
+            new: true,
+            runValidators: true,
+            upsert: true  
+        }
     );
 
-    if (!updatedTeacher) {
-        throw new ApiError(404, "Teacher not found");
-    }
-
     return res.status(200).json(
-        new ApiResponse(200, updatedTeacher , "Teacher Updated Successfully")
+        new ApiResponse(200, updatedTeacher, "Teacher Updated Successfully")
     );
 });
 
 
 export const getMyCourses = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
 
-    const teacher = await Teacher.findOne({
-        userId: req.user._id
-    });
+  const courses = await Course.find({
+    teachers: userId  
+  }).select("title description");
 
-    if (!teacher) {
-        throw new ApiError(404, "Teacher not found");
-    }
-
-    const courses = await Course.find({
-        teachers: teacher._id
-    }).lean();
-
-    return res.json(
-        new ApiResponse(200, courses, "Courses fetched")
-    );
+  return res.status(200).json(
+    new ApiResponse(200, courses)
+  );
 });
 
 export const updateTeacherAvatar = asyncHandler(async (req, res) => {
@@ -120,34 +127,34 @@ export const updateTeacherAvatar = asyncHandler(async (req, res) => {
 });
 
 
-export const getTeacherProfile = asyncHandler(async (req , res) => {
-    const teacherId = req.params.id ; 
+export const getTeacherProfile = asyncHandler(async (req, res) => {
+  const userId = req.params.id;
 
-    if(!mongoose.Types.ObjectId.isValid(teacherId)){
-        throw new ApiError(400 , "Invalid teacher id") ; 
-    }
+  // 1️⃣ Get user
+  const user = await User.findById(userId).select("name email avatar");
+  if (!user) throw new ApiError(404, "Teacher not found");
 
-    const teacher = await Teacher.findById(teacherId)
-    .populate("userId" , "name avatar email")
-    .lean()
+  // 2️⃣ Get teacher data
+  const teacher = await Teacher.findOne({ userId }).select(
+    "bio experience specialization"
+  );
 
-    if(!teacher){
-        throw new ApiError(404, "Teacher not found");
-    }
+  // 3️⃣ Get courses (correct)
+  const courses = await Course.find({
+    teachers: userId
+  }).select("title description");
 
-    const courses = await Course.find({
-        teachers : teacher._id 
-    }).lean() ;
+  return res.status(200).json(
+    new ApiResponse(200, {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      bio: teacher?.bio || "",
+      experience: teacher?.experience || 0,
+      specialization: teacher?.specialization || [],
 
-    return res.status(200)
-    .json( new ApiResponse(200 , 
-        {
-            name : teacher.userId.name ,
-            avatar : teacher.userId.avatar , 
-            email : teacher.userId.email,
-            bio : teacher.bio,
-            experience : teacher.experience ,
-            specialization: teacher.specialization,
-            courses ,
-        } , "Teacher profile fetch"))
-})
+      courses
+    })
+  );
+});

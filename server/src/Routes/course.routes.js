@@ -1,10 +1,10 @@
 import e, {Router} from "express"
-import { getCourse, getTeachersByCategory, getTeachersFromCourse } from "../controllers/course.controller.js";
+import { getCourse, getCourseById, getTeachersByCategory, getTeachersFromCourse } from "../controllers/course.controller.js";
 
-const courseRouter = Router() ; 
+const courseRouter = Router();
 
-courseRouter.get("/" , getCourse) ;
-courseRouter.get("/category/:category" , getTeachersByCategory) ; 
-courseRouter.get("/:id" , getTeachersFromCourse) ; 
+courseRouter.get("/", getCourse);
+courseRouter.get("/:id/teachers", getTeachersFromCourse);
+courseRouter.get("/:id", getCourseById);
 
-export { courseRouter }
+export { courseRouter } 
