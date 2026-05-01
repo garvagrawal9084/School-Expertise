@@ -2,12 +2,16 @@ import Navbar from "./Navbar";
 
 const Layout = ({ children }) => {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
+
+      {/* NAVBAR */}
       <Navbar />
 
-      <main className="max-w-6xl mx-auto px-6 py-6">
+      {/* PAGE CONTENT */}
+      <main className="pt-16">
         {children}
       </main>
+
     </div>
   );
 };

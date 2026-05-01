@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../api/api";
+import { toast } from "react-hot-toast";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [form, setForm] = useState({
     email: "",
@@ -18,53 +21,40 @@ const Login = () => {
     try {
       setLoading(true);
 
-      await API.post("/users/login", form);
+      const res = await API.post("/users/login", form);
 
-      navigate("/"); // redirect after login
+      login(res.data.data); // store user in context + localStorage
 
+      toast.success("Login successful");
+
+      navigate("/");
     } catch (err) {
-      console.error(err);
-      alert("Invalid email or password");
+      console.error(err.response?.data || err.message);
+      toast.error("Invalid email or password");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#f8fafc] dark:bg-[#0f172a]">
+    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0f172a] px-4">
 
-      {/* HEADER */}
-      <div className="flex justify-between items-center px-6 h-16 border-b bg-white dark:bg-[#1e293b]">
-        <span className="text-indigo-600 font-semibold text-lg">
-          School Expertise
-        </span>
-
-        <Link to="/signup">
-          <button className="bg-indigo-600 text-white px-4 py-1.5 rounded-lg">
-            Signup
-          </button>
-        </Link>
-      </div>
-
-      {/* MAIN */}
-      <div className="flex flex-col items-center justify-center flex-1 px-4">
+      {/* MAIN CARD */}
+      <div className="w-full max-w-sm bg-white dark:bg-[#1e293b] p-6 rounded-xl shadow">
 
         {/* ICON */}
-        <div className="w-14 h-14 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 mb-4 text-xl">
+        <div className="w-14 h-14 mx-auto rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600 mb-4 text-xl">
           🎓
         </div>
 
         {/* TITLE */}
-        <h1 className="text-2xl font-bold">Welcome back</h1>
-        <p className="text-gray-500 text-center mt-2 max-w-xs">
+        <h1 className="text-2xl font-bold text-center">Welcome back</h1>
+        <p className="text-gray-500 text-center mt-2">
           Enter your credentials to access the system.
         </p>
 
         {/* FORM */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white dark:bg-[#1e293b] w-full max-w-sm mt-6 p-6 rounded-xl shadow"
-        >
+        <form onSubmit={handleSubmit} className="mt-6">
 
           {/* EMAIL */}
           <label className="text-xs text-gray-500">EMAIL ADDRESS</label>
@@ -103,19 +93,14 @@ const Login = () => {
 
         </form>
 
-        {/* LINK */}
-        <p className="text-sm text-gray-500 mt-4">
+        {/* SIGNUP LINK */}
+        <p className="text-sm text-gray-500 mt-4 text-center">
           Don’t have an account?{" "}
           <Link to="/signup" className="text-indigo-600">
             Signup
           </Link>
         </p>
 
-      </div>
-
-      {/* FOOTER */}
-      <div className="text-center text-xs text-gray-400 pb-4">
-        © 2024 School Expertise System. All rights reserved.
       </div>
 
     </div>

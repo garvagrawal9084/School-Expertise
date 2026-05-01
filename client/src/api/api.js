@@ -5,32 +5,36 @@ const API = axios.create({
   withCredentials: true,
 });
 
+let isRefreshing = false;
+
 API.interceptors.response.use(
   (res) => res,
-  async (error) => {
-    const original = error.config;
+  async (err) => {
+    const originalRequest = err.config;
 
-    // ❌ DO NOT refresh for auth routes
     if (
-      original.url.includes("/login") ||
-      original.url.includes("/signup")
+      err.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url.includes("/login") &&
+      !originalRequest.url.includes("/refresh-token")
     ) {
-      return Promise.reject(error);
-    }
-
-    // prevent infinite loop
-    if (error.response?.status === 401 && !original._retry) {
-      original._retry = true;
+      originalRequest._retry = true;
 
       try {
         await API.post("/users/refresh-token");
-        return API(original);
-      } catch (err) {
-        return Promise.reject(err);
+        return API(originalRequest);
+      } catch (refreshError) {
+        // 🔥 STOP LOOP HERE
+        console.error("Refresh failed, logging out");
+
+        localStorage.removeItem("user");
+        window.location.href = "/login";
+
+        return Promise.reject(refreshError);
       }
     }
 
-    return Promise.reject(error);
+    return Promise.reject(err);
   }
 );
 

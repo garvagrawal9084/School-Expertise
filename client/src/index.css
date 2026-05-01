@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Theme system */
+/* ===== THEME VARIABLES ===== */
 @theme {
   --color-primary: #4f46e5;
   --color-bg: #f8fafc;
@@ -9,5 +9,22 @@
   --color-muted: #64748b;
 }
 
-/* Dark mode */
+/* ===== DARK MODE ===== */
 @custom-variant dark (&:where(.dark, .dark *));
+
+/* ===== APPLY GLOBAL STYLES ===== */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* Card surface */
+.card {
+  background-color: var(--color-surface);
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+}

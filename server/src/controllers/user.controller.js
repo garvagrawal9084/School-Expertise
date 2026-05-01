@@ -31,6 +31,8 @@ const generateAccessAndRefreshToken = async (userId) => {
 const register = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
+    console.log("BODY:", req.body);
+
     if ([name, email, password].some((field) => !field || !field.trim())) {
         throw new ApiError(400, "Name, email and password are required");
     }
@@ -63,12 +65,23 @@ const register = asyncHandler(async (req, res) => {
     const newUser = await User.findById(user._id)
         .select("-password -refreshToken");
 
-    if (req.body.teacherRequest) {
-        await TeacherRequest.create({
-            userId: user._id,
-            message: req.body.message,
-        });
-    }
+    // if (req.body.teacherRequest) {
+    //     await TeacherRequest.create({
+    //         userId: user._id,
+    //         message: req.body.message,
+    //     });
+    // }
+
+    if (
+  req.body.teacherRequest === "true" ||
+  req.body.teacherRequest === true ||
+  req.body.teacherRequest === "1"
+) {
+  await TeacherRequest.create({
+    userId: user._id,
+    message: req.body.message,
+  });
+}
 
     return res
         .status(201)
@@ -82,6 +95,8 @@ const login = asyncHandler(async (req , res) => {
     // store the token in cookie
 
     const {email , password} = req.body ; 
+
+    console.log("REQ BODY:", req.body);
 
     if([email , password].some((field) => !field || !field.trim())){
         throw new ApiError(400 , "Require both email and password") ; 

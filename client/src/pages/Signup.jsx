@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import API from "../api/api";
-import toast from "react-hot-toast";
-import Layout from "../components/layout/Layout";
+import { toast } from "react-hot-toast";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -12,7 +11,7 @@ const Signup = () => {
     email: "",
     password: "",
     avatar: null,
-    isTeacher: false,
+    teacherRequest: false,
     message: "",
   });
 
@@ -32,11 +31,11 @@ const Signup = () => {
       data.append("password", form.password);
 
       if (form.avatar) {
-        data.append("avatar", form.avatar); // 🔥 must match multer field
+        data.append("avatar", form.avatar);
       }
 
-      if (form.isTeacher) {
-        data.append("isTeacher", "true"); // string important
+      if (form.teacherRequest) {
+        data.append("teacherRequest", "true");
         data.append("message", form.message);
       }
 
@@ -45,167 +44,159 @@ const Signup = () => {
       toast.success("Account created successfully");
 
       navigate("/login");
-
     } catch (err) {
       console.error(err.response?.data || err);
-
-      toast.error(
-        err.response?.data?.message || "Signup failed"
-      );
+      toast.error(err.response?.data?.message || "Signup failed");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Layout>
+    <div className="min-h-screen flex items-center justify-center bg-[#f8fafc] dark:bg-[#0f172a] px-4">
 
-      <div className="flex justify-center py-8">
-        <div className="w-full max-w-md bg-white rounded-xl shadow overflow-hidden">
+      <div className="w-full max-w-md bg-white dark:bg-[#1e293b] rounded-xl shadow overflow-hidden">
 
-          {/* TOP BANNER */}
-          <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 text-white p-6 text-center">
-            <h2 className="text-xl font-semibold">
-              Join the Network
-            </h2>
-            <p className="text-sm mt-1 opacity-90">
-              Create your educator profile and map your expertise.
-            </p>
+        {/* TOP BANNER */}
+        <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 text-white p-6 text-center">
+          <h2 className="text-xl font-semibold">
+            Join the Network
+          </h2>
+          <p className="text-sm mt-1 opacity-90">
+            Create your educator profile and map your expertise.
+          </p>
+        </div>
+
+        {/* FORM */}
+        <form onSubmit={handleSubmit} className="p-6">
+
+          {/* NAME */}
+          <label className="text-xs text-gray-500">FULL NAME</label>
+          <input
+            type="text"
+            required
+            placeholder="John Doe"
+            className="w-full border rounded-lg p-3 mt-1 mb-4"
+            value={form.name}
+            onChange={(e) =>
+              setForm({ ...form, name: e.target.value })
+            }
+          />
+
+          {/* EMAIL */}
+          <label className="text-xs text-gray-500">EMAIL ADDRESS</label>
+          <input
+            type="email"
+            required
+            placeholder="educator@school.edu"
+            className="w-full border rounded-lg p-3 mt-1 mb-4"
+            value={form.email}
+            onChange={(e) =>
+              setForm({ ...form, email: e.target.value })
+            }
+          />
+
+          {/* PASSWORD */}
+          <label className="text-xs text-gray-500">PASSWORD</label>
+          <input
+            type="password"
+            required
+            placeholder="••••••••"
+            className="w-full border rounded-lg p-3 mt-1 mb-1"
+            value={form.password}
+            onChange={(e) =>
+              setForm({ ...form, password: e.target.value })
+            }
+          />
+          <p className="text-xs text-gray-400 mb-4">
+            Must be at least 8 characters
+          </p>
+
+          {/* AVATAR */}
+          <label className="text-xs text-gray-500">UPLOAD AVATAR</label>
+
+          <div className="border-2 border-dashed rounded-lg p-6 text-center mb-4">
+            <input
+              type="file"
+              accept="image/*"
+              id="avatarUpload"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                setForm({ ...form, avatar: file });
+
+                if (file) {
+                  setPreview(URL.createObjectURL(file));
+                }
+              }}
+            />
+
+            <label htmlFor="avatarUpload" className="cursor-pointer">
+              {preview ? (
+                <img
+                  src={preview}
+                  alt="preview"
+                  className="w-20 h-20 object-cover mx-auto rounded-full"
+                />
+              ) : (
+                <>
+                  <p className="text-indigo-600 font-medium">
+                    Upload a file
+                  </p>
+                  <p className="text-xs text-gray-400">
+                    PNG, JPG up to 10MB
+                  </p>
+                </>
+              )}
+            </label>
           </div>
 
-          {/* FORM */}
-          <form onSubmit={handleSubmit} className="p-6">
-
-            {/* NAME */}
-            <label className="text-xs text-gray-500">FULL NAME</label>
+          {/* TEACHER CHECKBOX */}
+          <div className="flex items-center gap-2 mb-3">
             <input
-              type="text"
-              required
-              placeholder="John Doe"
-              className="w-full border rounded-lg p-3 mt-1 mb-4"
-              value={form.name}
+              type="checkbox"
+              checked={form.teacherRequest}
               onChange={(e) =>
-                setForm({ ...form, name: e.target.value })
+                setForm({ ...form, teacherRequest: e.target.checked })
               }
             />
+            <span className="text-sm">Register as Teacher</span>
+          </div>
 
-            {/* EMAIL */}
-            <label className="text-xs text-gray-500">EMAIL ADDRESS</label>
-            <input
-              type="email"
-              required
-              placeholder="educator@school.edu"
-              className="w-full border rounded-lg p-3 mt-1 mb-4"
-              value={form.email}
+          {/* MESSAGE */}
+          {form.teacherRequest && (
+            <textarea
+              placeholder="Write a message for admin..."
+              className="w-full border rounded-lg p-3 mb-4"
+              rows={3}
+              value={form.message}
               onChange={(e) =>
-                setForm({ ...form, email: e.target.value })
+                setForm({ ...form, message: e.target.value })
               }
             />
+          )}
 
-            {/* PASSWORD */}
-            <label className="text-xs text-gray-500">PASSWORD</label>
-            <input
-              type="password"
-              required
-              placeholder="••••••••"
-              className="w-full border rounded-lg p-3 mt-1 mb-1"
-              value={form.password}
-              onChange={(e) =>
-                setForm({ ...form, password: e.target.value })
-              }
-            />
-            <p className="text-xs text-gray-400 mb-4">
-              Must be at least 8 characters
-            </p>
+          {/* BUTTON */}
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition"
+          >
+            {loading ? "Creating..." : "Signup →"}
+          </button>
 
-            {/* AVATAR UPLOAD */}
-            <label className="text-xs text-gray-500">UPLOAD AVATAR</label>
+          {/* LOGIN LINK */}
+          <p className="text-sm text-gray-500 mt-4 text-center">
+            Already have an account?{" "}
+            <Link to="/login" className="text-indigo-600">
+              Login
+            </Link>
+          </p>
 
-            <div className="border-2 border-dashed rounded-lg p-6 text-center mb-4">
-
-              <input
-                type="file"
-                accept="image/*"
-                id="avatarUpload"
-                className="hidden"
-                onChange={(e) => {
-                  const file = e.target.files[0];
-                  setForm({ ...form, avatar: file });
-
-                  if (file) {
-                    setPreview(URL.createObjectURL(file));
-                  }
-                }}
-              />
-
-              <label htmlFor="avatarUpload" className="cursor-pointer">
-
-                {preview ? (
-                  <img
-                    src={preview}
-                    alt="preview"
-                    className="w-20 h-20 object-cover mx-auto rounded-full"
-                  />
-                ) : (
-                  <>
-                    <p className="text-indigo-600 font-medium">
-                      Upload a file
-                    </p>
-                    <p className="text-xs text-gray-400">
-                      PNG, JPG up to 10MB
-                    </p>
-                  </>
-                )}
-
-              </label>
-            </div>
-
-            {/* TEACHER CHECKBOX */}
-            <div className="flex items-center gap-2 mb-3">
-              <input
-                type="checkbox"
-                checked={form.isTeacher}
-                onChange={(e) =>
-                  setForm({ ...form, isTeacher: e.target.checked })
-                }
-              />
-              <span className="text-sm">
-                Register as Teacher
-              </span>
-            </div>
-
-            {/* CONDITIONAL MESSAGE */}
-            {form.isTeacher && (
-              <textarea
-                placeholder="Write a message for admin..."
-                className="w-full border rounded-lg p-3 mb-4"
-                rows={3}
-                value={form.message}
-                onChange={(e) =>
-                  setForm({ ...form, message: e.target.value })
-                }
-              />
-            )}
-
-            {/* BUTTON */}
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition"
-            >
-              {loading ? "Creating..." : "Signup →"}
-            </button>
-
-            {/* TERMS */}
-            <p className="text-xs text-gray-400 text-center mt-4">
-              By signing up, you agree to the Terms of Service and Privacy Policy.
-            </p>
-
-          </form>
-        </div>
+        </form>
       </div>
 
-    </Layout>
+    </div>
   );
 };
 

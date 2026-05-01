@@ -1,4 +1,4 @@
-import Layout from "../components/layout/Layout";
+// import Layout from "../components/layout/AdminLayout";
 import { useEffect, useState } from "react";
 import API from "../api/api";
 
@@ -13,7 +13,7 @@ const Home = () => {
   }, []);
 
   return (
-    <Layout>
+     <div className="max-w-6xl mx-auto px-6 py-6">
 
       {/* HERO SECTION */}
       <div className="bg-white dark:bg-[#1e293b] border rounded-xl p-6 shadow-sm mb-8">
@@ -104,7 +104,7 @@ const Home = () => {
         Loaded courses: {courses.length}
       </div>
 
-    </Layout>
+    </div>
   );
 };
 
