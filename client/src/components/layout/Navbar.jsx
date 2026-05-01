@@ -1,28 +1,53 @@
+import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
-import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { dark, setDark } = useContext(ThemeContext);
 
   return (
-    <div className="flex justify-between items-center px-6 py-4 bg-white dark:bg-slate-800 shadow">
-      <h2 className="text-indigo-600 font-bold text-xl">
-        School Expertise
-      </h2>
+    <header className="w-full border-b bg-white dark:bg-[#0f172a]">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
-      <div className="flex gap-4 items-center">
-        <Link to="/">Home</Link>
-        <Link to="/login">Login</Link>
+        {/* LEFT: LOGO */}
+        <div className="flex items-center gap-2">
+          <div className="w-6 h-6 rounded-md bg-[--color-primary]"></div>
+          <span className="text-lg font-semibold text-[--color-primary]">
+            School Expertise
+          </span>
+        </div>
 
-        <button
-          onClick={() => setDark(!dark)}
-          className="bg-indigo-600 text-white px-3 py-1 rounded"
-        >
-          {dark ? "Light" : "Dark"}
-        </button>
+        {/* RIGHT */}
+        <div className="flex items-center gap-4">
+
+          {/* Search icon */}
+          <button className="text-gray-500 hover:text-black">
+            🔍
+          </button>
+
+          {/* Menu */}
+          <button className="text-gray-500 hover:text-black">
+            ☰
+          </button>
+
+          {/* Login */}
+          <Link to="/login">
+            <button className="bg-[--color-primary] text-white px-4 py-1.5 rounded-lg">
+              Login
+            </button>
+          </Link>
+
+          {/* Theme toggle */}
+          <button
+            onClick={() => setDark(!dark)}
+            className="text-lg"
+          >
+            {dark ? "☀️" : "🌙"}
+          </button>
+
+        </div>
       </div>
-    </div>
+    </header>
   );
 };
 

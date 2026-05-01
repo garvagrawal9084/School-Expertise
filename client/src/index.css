@@ -1,7 +1,13 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-body {
-  @apply bg-gray-100 dark:bg-slate-900 transition-colors duration-300;
+/* Theme system */
+@theme {
+  --color-primary: #4f46e5;
+  --color-bg: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-muted: #64748b;
 }
+
+/* Dark mode */
+@custom-variant dark (&:where(.dark, .dark *));
