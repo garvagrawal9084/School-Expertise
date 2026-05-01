@@ -1,109 +1,163 @@
-// import Layout from "../components/layout/AdminLayout";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../api/api";
+import heroImg from "../assets/hero.png";
+import { AuthContext } from "../context/AuthContext";
 
 const Home = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
+
   const [courses, setCourses] = useState([]);
 
-  // Backend integration (for later use / debug)
+  const handleProtectedClick = (path) => {
+    if (!user) navigate("/login");
+    else navigate(path);
+  };
+
   useEffect(() => {
-    API.get("/courses")
-      .then(res => setCourses(res.data.data))
-      .catch(err => console.log(err));
+    const fetchCourses = async () => {
+      try {
+        const res = await API.get("/courses");
+        setCourses(res?.data?.data || []);
+      } catch (err) {
+        console.error("Courses fetch error:", err);
+        setCourses([]);
+      }
+    };
+
+    fetchCourses();
   }, []);
 
   return (
-     <div className="max-w-6xl mx-auto px-6 py-6">
+    <div className="max-w-7xl mx-auto px-6 py-10">
 
-      {/* HERO SECTION */}
-      <div className="bg-white dark:bg-[#1e293b] border rounded-xl p-6 shadow-sm mb-8">
+      {/* HERO */}
+      <div className="grid md:grid-cols-2 gap-10 items-center mb-24">
+        <div>
+          <h1 className="text-5xl md:text-6xl font-extrabold mb-6">
+            Welcome to <br />
+            <span className="text-indigo-600">School Expertise</span>
+          </h1>
 
-        <span className="text-xs bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full">
-          PLATFORM OVERVIEW
-        </span>
+          <p className="text-lg text-gray-600 mb-8">
+            Explore academic curricula across all departments.
+          </p>
 
-        <h1 className="text-3xl font-bold mt-4 leading-tight">
-          Manage Institutional Expertise with Precision and Clarity
-        </h1>
-
-        <p className="text-gray-500 mt-3">
-          A centralized hub for tracking faculty specializations, subject mastery,
-          and developmental progress across your entire academic organization.
-        </p>
-
-        <div className="flex gap-3 mt-5">
-          <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow">
-            Launch Dashboard
-          </button>
-
-          <button className="border px-4 py-2 rounded-lg">
-            View Documentation
+          <button
+            onClick={() => handleProtectedClick("/courses")}
+            className="bg-indigo-600 text-white px-6 py-3 rounded-xl"
+          >
+            Explore Courses
           </button>
         </div>
+
+        <div className="flex justify-center">
+          <img src={heroImg} alt="hero" className="max-w-lg" />
+        </div>
       </div>
 
-      {/* FEATURE GRID */}
-      <div className="grid gap-4 mb-10">
+      {/* COURSES */}
+      <div className="mb-24">
 
-        {/* Highlight card */}
-        <div className="bg-gradient-to-r from-indigo-600 to-indigo-500 text-white p-5 rounded-xl shadow">
-          <h3 className="font-semibold">Real-time Metrics</h3>
-          <p className="text-sm mt-1 opacity-90">
-            Instant visualization of departmental coverage and expertise gaps.
-          </p>
+        <div className="flex justify-between mb-6">
+          <h2 className="text-2xl font-bold">Popular Courses</h2>
+
+          <button
+            onClick={() => handleProtectedClick("/courses")}
+            className="text-indigo-600"
+          >
+            View All →
+          </button>
         </div>
 
-        {/* Other cards */}
-        <div className="bg-white dark:bg-[#1e293b] p-5 rounded-xl shadow">
-          <h3 className="font-semibold">Accredited Tracking</h3>
-          <p className="text-sm text-gray-500 mt-1">
-            Automatic verification of professional development and certifications.
-          </p>
-        </div>
+        <div className="grid md:grid-cols-2 gap-8">
+          {courses.length > 0 ? (
+            courses.slice(0, 2).map((course) => {
+              const tags =
+                typeof course.category === "string"
+                  ? course.category.split(",")
+                  : ["General"];
 
-        <div className="bg-white dark:bg-[#1e293b] p-5 rounded-xl shadow">
-          <h3 className="font-semibold">Faculty Synergy</h3>
-          <p className="text-sm text-gray-500 mt-1">
-            Analyze overlapping skill sets to foster collaborative curriculum development.
-          </p>
-        </div>
+              return (
+                <div
+                  key={course._id}
+                  className="p-6 border rounded-xl bg-white hover:shadow"
+                >
+                  {/* TAGS */}
+                  <div className="flex gap-2 mb-3">
+                    {tags.map((tag, i) => (
+                      <span
+                        key={i}
+                        className="text-xs bg-indigo-100 text-indigo-600 px-3 py-1 rounded-full"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
 
-        <div className="bg-white dark:bg-[#1e293b] p-5 rounded-xl shadow">
-          <h3 className="font-semibold">Subject Mapping</h3>
-          <p className="text-sm text-gray-500 mt-1">
-            Dynamic visualization of subject coverage across grade levels.
-          </p>
-        </div>
+                  <h3 className="text-xl font-semibold mb-2">
+                    {course.title || "Untitled"}
+                  </h3>
 
-        <div className="bg-white dark:bg-[#1e293b] p-5 rounded-xl shadow">
-          <h3 className="font-semibold">AI Recommendations</h3>
-          <p className="text-sm text-gray-500 mt-1">
-            Smart suggestions for faculty placement based on expertise alignment.
-          </p>
-        </div>
+                  <p className="text-gray-600 text-sm mb-6">
+                    {(course.description || "").slice(0, 100)}
+                  </p>
 
+                  <div className="flex justify-between">
+                    <span className="text-sm text-gray-500">
+                      {course.teachers?.length || 0} Teachers
+                    </span>
+
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() =>
+                          handleProtectedClick(`/courses/${course._id}/teachers`)
+                        }
+                        className="bg-gray-200 px-3 py-1 rounded"
+                      >
+                        View Teachers
+                      </button>
+
+                      <button
+                        onClick={() =>
+                          handleProtectedClick(`/courses/${course._id}`)
+                        }
+                        className="bg-indigo-600 text-white px-3 py-1 rounded"
+                      >
+                        View
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <p>No courses available</p>
+          )}
+        </div>
       </div>
 
-      {/* CTA SECTION */}
-      <div className="bg-[#020617] text-white p-6 rounded-xl shadow mb-10">
-        <h2 className="text-2xl font-bold">
-          Visualize Your Academic Network
-        </h2>
+      {/* FEATURES */}
+      <div className="text-center">
+        <h2 className="text-2xl font-bold mb-4">Platform Features</h2>
 
-        <p className="text-gray-300 mt-2">
-          Get a bird's-eye view of your institution’s intellectual capital with our proprietary visualization tool.
-        </p>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div
+            onClick={() => handleProtectedClick("/courses")}
+            className="p-6 border rounded-xl cursor-pointer"
+          >
+            📚 Explore Courses
+          </div>
 
-        <button className="mt-4 bg-white text-black px-4 py-2 rounded-lg">
-          Explore the Mesh
-        </button>
+          <div
+            onClick={() => handleProtectedClick("/teachers")}
+            className="p-6 border rounded-xl cursor-pointer"
+          >
+            👨‍🏫 Learn from Teachers
+          </div>
+        </div>
       </div>
-
-      {/* DEBUG / API CHECK (REMOVE LATER) */}
-      <div className="text-sm text-gray-400">
-        Loaded courses: {courses.length}
-      </div>
-
     </div>
   );
 };

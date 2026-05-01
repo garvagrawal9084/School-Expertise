@@ -1,12 +1,19 @@
 import { useState, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, Navigate } from "react-router-dom";
 import API from "../api/api";
 import { toast } from "react-hot-toast";
 import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login, user } = useContext(AuthContext);
+
+  // 🔥 REDIRECT IF ALREADY LOGGED IN
+  if (user) {
+    if (user.role === "admin") return <Navigate to="/admin/dashboard" />;
+    if (user.role === "teacher") return <Navigate to="/teacher/dashboard" />;
+    return <Navigate to="/" />;
+  }
 
   const [form, setForm] = useState({
     email: "",
@@ -23,11 +30,21 @@ const Login = () => {
 
       const res = await API.post("/users/login", form);
 
-      login(res.data.data); // store user in context + localStorage
+      const loggedUser = res.data.data;
+
+      login(loggedUser); // store user
 
       toast.success("Login successful");
 
-      navigate("/");
+      // 🔥 ROLE-BASED REDIRECT AFTER LOGIN
+      if (loggedUser.role === "admin") {
+        navigate("/admin/dashboard");
+      } else if (loggedUser.role === "teacher") {
+        navigate("/teacher/dashboard");
+      } else {
+        navigate("/");
+      }
+
     } catch (err) {
       console.error(err.response?.data || err.message);
       toast.error("Invalid email or password");

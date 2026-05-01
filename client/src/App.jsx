@@ -1,91 +1,155 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext";
 
-// LAYOUTS
+// Layouts
 import MainLayout from "./components/layout/MainLayout";
 import AdminLayout from "./components/layout/AdminLayout";
 
-// PUBLIC PAGES
+// Pages
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
 import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
 import CourseTeachers from "./pages/CourseTeachers";
-
-// ADMIN PAGES
-import Dashboard from "./pages/admin/Dashboard";
-import ManageCourses from "./pages/admin/ManageCourses";
-import TeacherRequests from "./pages/admin/TeacherRequests";
-import AddCourse from "./pages/admin/AddCourse";
-import AssignTeacher from "./pages/admin/AssignTeacher";
-
-// TEACHER PAGE
-import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 import TeacherProfile from "./pages/TeacherProfile";
+import Teachers from "./pages/Teachers";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
-// ROUTE PROTECTION
-import AdminRoute from "./routes/AdminRoute";
-import TeacherRoute from "./routes/TeacherRoute";
+// Admin
+import AdminDashboard from "./pages/admin/Dashboard";
 
-function App() {
+// Teacher
+import TeacherDashboard from "./pages/teacher/TeacherDashboard";
+
+const App = () => {
+  const { user, loading } = useContext(AuthContext);
+
+  if (loading) return <div className="text-center mt-10">Loading...</div>;
+
   return (
     <Router>
-      {/* TOASTER */}
-      <Toaster position="top-right" />
-
       <Routes>
 
-        {/* ================= PUBLIC ================= */}
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/courses/:id" element={<CourseDetail />} />
-          <Route path="/courses/:id/teachers" element={<CourseTeachers />} />
-          <Route path="/teacher/:id" element={<TeacherProfile />} />
-        </Route>
+        {/* HOME */}
+        <Route
+          path="/"
+          element={
+            user?.role === "admin" ? (
+              <Navigate to="/admin/dashboard" />
+            ) : user?.role === "teacher" ? (
+              <Navigate to="/teacher/dashboard" />
+            ) : (
+              <MainLayout>
+                <Home />
+              </MainLayout>
+            )
+          }
+        />
 
-        {/* ================= AUTH ================= */}
+        {/* AUTH */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* ================= ADMIN ================= */}
+        {/* COURSES */}
         <Route
+          path="/courses"
           element={
-            <AdminRoute>
-              <AdminLayout />
-            </AdminRoute>
+            user ? (
+              <MainLayout>
+                <Courses />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
-        >
-          <Route path="/admin" element={<Dashboard />} />
-          <Route path="/admin/courses" element={<ManageCourses />} />
-          <Route path="/admin/add-course" element={<AddCourse />} />
-          <Route path="/admin/teacher-requests" element={<TeacherRequests />} />
-          <Route path="/admin/assign/:courseId" element={<AssignTeacher />} />
-        </Route>
+        />
 
-        {/* ================= TEACHER ================= */}
+        {/* COURSE DETAIL */}
         <Route
+          path="/courses/:id"
           element={
-            <TeacherRoute>
-              <MainLayout />
-            </TeacherRoute>
+            user ? (
+              <MainLayout>
+                <CourseDetail />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
-        >
-          <Route path="/teacher" element={<TeacherDashboard />} />
-        </Route>
+        />
 
-        {/* ================= REDIRECT ================= */}
-        <Route path="/admin/dashboard" element={<Navigate to="/admin" />} />
+        {/* COURSE TEACHERS */}
+        <Route
+          path="/courses/:id/teachers"
+          element={
+            user ? (
+              <MainLayout>
+                <CourseTeachers />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        {/* 🔥 ALL TEACHERS PAGE */}
+        <Route
+          path="/teachers"
+          element={
+            user ? (
+              <MainLayout>
+                <Teachers />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        {/* 🔥 TEACHER PROFILE */}
+        <Route
+          path="/teacher/:id"
+          element={
+            user ? (
+              <MainLayout>
+                <TeacherProfile />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        {/* ADMIN */}
+        <Route
+          path="/admin/dashboard"
+          element={
+            user?.role === "admin" ? (
+              <AdminLayout>
+                <AdminDashboard />
+              </AdminLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        {/* TEACHER */}
+        <Route
+          path="/teacher/dashboard"
+          element={
+            user?.role === "teacher" ? (
+              <TeacherDashboard />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
 
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
