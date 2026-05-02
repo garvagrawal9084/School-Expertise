@@ -30,15 +30,19 @@ export const deleteTeacher = asyncHandler(async (req, res) => {
   if (!id) throw new ApiError(400, "Teacher ID is required");
   if (!isValidId(id)) throw new ApiError(400, "Invalid teacher ID format");
 
-  const teacher = await Teacher.findById(id);
+  // Try finding by Teacher doc _id first, then by userId
+  let teacher = await Teacher.findById(id);
+  if (!teacher) {
+    teacher = await Teacher.findOne({ userId: id });
+  }
   if (!teacher) throw new ApiError(404, "Teacher not found");
 
   await Promise.all([
     Course.updateMany(
-      { teachers: teacher._id },
-      { $pull: { teachers: teacher._id } }
+      { teachers: teacher.userId },
+      { $pull: { teachers: teacher.userId } }
     ),
-    Teacher.findByIdAndDelete(id),
+    Teacher.findByIdAndDelete(teacher._id),
     User.findByIdAndUpdate(teacher.userId, { role: "STUDENT" })
   ]);
 
@@ -86,6 +90,23 @@ export const getCourses = asyncHandler(async (req, res) => {
 
   return res.status(200).json(
     new ApiResponse(200, courses, "Courses fetched successfully")
+  );
+});
+
+
+export const deleteCourse = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) throw new ApiError(400, "Course ID is required");
+  if (!isValidId(id)) throw new ApiError(400, "Invalid course ID format");
+
+  const course = await Course.findById(id);
+  if (!course) throw new ApiError(404, "Course not found");
+
+  await Course.findByIdAndDelete(id);
+
+  return res.status(200).json(
+    new ApiResponse(200, null, "Course deleted successfully")
   );
 });
 
@@ -228,8 +249,8 @@ export const suggestTeacher = asyncHandler(async (req , res) => {
   }
 
   const suggestedTeacher = await Teacher.find({
-    specialization: { $in: [course.category] },
-    _id: { $nin: course.teachers }
+    specialization: { $in: course.category },
+    userId: { $nin: course.teachers }
   })
   .populate({
     path: "userId",

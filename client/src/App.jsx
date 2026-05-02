@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useContext } from "react";
-import { AuthContext } from "./context/AuthContext";
+import { useAuth } from "./context/AuthContext";
 
 // Layouts
 import MainLayout from "./components/layout/MainLayout";
@@ -12,33 +11,45 @@ import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
 import CourseTeachers from "./pages/CourseTeachers";
 import TeacherProfile from "./pages/TeacherProfile";
-import Teachers from "./pages/Teachers";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
-// Admin
+// Admin Pages
 import AdminDashboard from "./pages/admin/Dashboard";
+import ManageCourses from "./pages/admin/ManageCourses";
+import AddCourse from "./pages/admin/AddCourse";
+import AssignTeacher from "./pages/admin/AssignTeacher";
+import TeacherRequests from "./pages/admin/TeacherRequests";
+import Teachers from "./pages/admin/Teachers";
 
-// Teacher
+// Teacher Pages
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 
-const App = () => {
-  const { user, loading } = useContext(AuthContext);
+// Loading Component
+const LoadingScreen = () => (
+  <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0f172a]">
+    <div className="flex flex-col items-center gap-4 animate-fade-in">
+      <div className="spinner" />
+      <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Loading...</p>
+    </div>
+  </div>
+);
 
-  if (loading) return <div className="text-center mt-10">Loading...</div>;
+const App = () => {
+  const { user, loading } = useAuth();
+
+  if (loading) return <LoadingScreen />;
 
   return (
     <Router>
       <Routes>
 
-        {/* HOME */}
+        {/* ============ HOME ============ */}
         <Route
           path="/"
           element={
-            user?.role === "admin" ? (
+            user?.role === "ADMIN" ? (
               <Navigate to="/admin/dashboard" />
-            ) : user?.role === "teacher" ? (
-              <Navigate to="/teacher/dashboard" />
             ) : (
               <MainLayout>
                 <Home />
@@ -47,21 +58,17 @@ const App = () => {
           }
         />
 
-        {/* AUTH */}
+        {/* ============ AUTH ============ */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* COURSES */}
+        {/* ============ COURSES (public browsing, login for details) ============ */}
         <Route
           path="/courses"
           element={
-            user ? (
-              <MainLayout>
-                <Courses />
-              </MainLayout>
-            ) : (
-              <Navigate to="/login" />
-            )
+            <MainLayout>
+              <Courses />
+            </MainLayout>
           }
         />
 
@@ -69,13 +76,9 @@ const App = () => {
         <Route
           path="/courses/:id"
           element={
-            user ? (
-              <MainLayout>
-                <CourseDetail />
-              </MainLayout>
-            ) : (
-              <Navigate to="/login" />
-            )
+            <MainLayout>
+              <CourseDetail />
+            </MainLayout>
           }
         />
 
@@ -93,39 +96,21 @@ const App = () => {
           }
         />
 
-        {/* 🔥 ALL TEACHERS PAGE */}
-        <Route
-          path="/teachers"
-          element={
-            user ? (
-              <MainLayout>
-                <Teachers />
-              </MainLayout>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-
-        {/* 🔥 TEACHER PROFILE */}
+        {/* TEACHER PROFILE (public) */}
         <Route
           path="/teacher/:id"
           element={
-            user ? (
-              <MainLayout>
-                <TeacherProfile />
-              </MainLayout>
-            ) : (
-              <Navigate to="/login" />
-            )
+            <MainLayout>
+              <TeacherProfile />
+            </MainLayout>
           }
         />
 
-        {/* ADMIN */}
+        {/* ============ ADMIN ============ */}
         <Route
           path="/admin/dashboard"
           element={
-            user?.role === "admin" ? (
+            user?.role === "ADMIN" ? (
               <AdminLayout>
                 <AdminDashboard />
               </AdminLayout>
@@ -134,18 +119,83 @@ const App = () => {
             )
           }
         />
-
-        {/* TEACHER */}
         <Route
-          path="/teacher/dashboard"
+          path="/admin/courses"
           element={
-            user?.role === "teacher" ? (
-              <TeacherDashboard />
+            user?.role === "ADMIN" ? (
+              <AdminLayout>
+                <ManageCourses />
+              </AdminLayout>
             ) : (
               <Navigate to="/" />
             )
           }
         />
+        <Route
+          path="/admin/add-course"
+          element={
+            user?.role === "ADMIN" ? (
+              <AdminLayout>
+                <AddCourse />
+              </AdminLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/admin/assign/:courseId"
+          element={
+            user?.role === "ADMIN" ? (
+              <AdminLayout>
+                <AssignTeacher />
+              </AdminLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/admin/teacher-requests"
+          element={
+            user?.role === "ADMIN" ? (
+              <AdminLayout>
+                <TeacherRequests />
+              </AdminLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/admin/teachers"
+          element={
+            user?.role === "ADMIN" ? (
+              <AdminLayout>
+                <Teachers />
+              </AdminLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        {/* ============ TEACHER ============ */}
+        <Route
+          path="/teacher/dashboard"
+          element={
+            user?.role === "TEACHER" ? (
+              <MainLayout>
+                <TeacherDashboard />
+              </MainLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+        {/* ============ CATCH ALL ============ */}
+        <Route path="*" element={<Navigate to="/" />} />
 
       </Routes>
     </Router>

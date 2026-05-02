@@ -2,89 +2,124 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API from "../api/api";
 import toast from "react-hot-toast";
+import { Users, ArrowRight, BookOpen, Search } from "lucide-react";
 
 const Courses = () => {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const fetchCourses = async () => {
-    try {
-      const res = await API.get("/courses");
-      setCourses(res.data?.data || []);
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to load courses");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
+    const fetchCourses = async () => {
+      try { const res = await API.get("/courses"); setCourses(res.data?.data || []); }
+      catch (err) { console.error(err); toast.error("Failed to load courses"); }
+      finally { setLoading(false); }
+    };
     fetchCourses();
   }, []);
 
+  const filtered = courses.filter((c) =>
+    c.title?.toLowerCase().includes(search.toLowerCase()) || c.category?.some(cat => cat.toLowerCase().includes(search.toLowerCase()))
+  );
+
   return (
-    <div className="max-w-7xl mx-auto px-6 py-8">
-      <h1 className="text-2xl font-bold mb-8">Courses</h1>
+    <div
+      className="animate-fade-in w-full"
+      style={{ padding: '60px 48px' }}
+    >
+      {/* Header row */}
+      <div
+        className="flex flex-col sm:flex-row sm:items-end sm:justify-between"
+        style={{ gap: '16px', marginBottom: '48px' }}
+      >
+        <div>
+          <h1 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white">All Courses</h1>
+          <p className="text-slate-600 dark:text-slate-400 text-lg" style={{ marginTop: '8px' }}>Browse our complete academic catalog</p>
+        </div>
+        <div className="relative">
+          <Search size={18} className="absolute text-slate-400" style={{ left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
+          <input
+            type="text"
+            placeholder="Search by name or tag..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 font-medium"
+            style={{ width: '288px', paddingTop: '12px', paddingBottom: '12px', paddingLeft: '44px', paddingRight: '16px' }}
+          />
+        </div>
+      </div>
 
       {loading ? (
-        <p className="text-gray-500">Loading...</p>
-      ) : courses.length === 0 ? (
-        <p className="text-gray-500">No courses found</p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3" style={{ gap: '32px' }}>
+          {[1,2,3,4,5,6].map(i => <div key={i} className="rounded-3xl skeleton" style={{ height: '280px' }} />)}
+        </div>
+      ) : filtered.length === 0 ? (
+        <div
+          className="text-center bg-white dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl"
+          style={{ padding: '80px 40px' }}
+        >
+          <BookOpen size={48} className="mx-auto text-slate-300 dark:text-slate-600" style={{ marginBottom: '16px' }} />
+          <p className="text-xl font-bold text-slate-900 dark:text-white" style={{ marginBottom: '8px' }}>
+            {search ? `No courses match "${search}"` : "No courses found"}
+          </p>
+          <p className="text-slate-500 dark:text-slate-400">Try adjusting your search or check back later.</p>
+        </div>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {courses.map((course) => (
-            <div
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 stagger" style={{ gap: '32px' }}>
+          {filtered.map((course) => (
+            <Link
               key={course._id}
-              className="bg-white dark:bg-slate-900 border rounded-2xl p-5 shadow hover:shadow-lg transition"
+              to={`/courses/${course._id}`}
+              className="group flex flex-col bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-3xl hover:border-indigo-600 dark:hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 animate-slide-up"
+              style={{ padding: '32px' }}
             >
-              {/* CATEGORY */}
-              <div className="flex gap-2 mb-3 flex-wrap">
+              {/* Tags */}
+              <div className="flex flex-wrap" style={{ gap: '8px', marginBottom: '20px' }}>
                 {course.category?.map((cat) => (
                   <span
                     key={cat}
-                    className="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full"
+                    className="inline-flex items-center text-xs font-bold rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 group-hover:bg-indigo-50 dark:group-hover:bg-indigo-900/30 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors"
+                    style={{ padding: '4px 10px' }}
                   >
                     {cat}
                   </span>
                 ))}
               </div>
 
-              {/* TITLE */}
-              <h2 className="text-lg font-semibold mb-2">{course.title}</h2>
+              {/* Title */}
+              <h2
+                className="text-xl font-black text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-snug"
+                style={{ marginBottom: '12px' }}
+              >
+                {course.title}
+              </h2>
 
-              {/* DESCRIPTION */}
-              <p className="text-sm text-gray-500 mb-4 line-clamp-3">
+              {/* Description */}
+              <p
+                className="text-slate-500 dark:text-slate-400 text-sm flex-1 line-clamp-3 leading-relaxed"
+                style={{ marginBottom: '24px' }}
+              >
                 {course.description || "No description available"}
               </p>
 
-              {/* FOOTER */}
-              <div className="flex justify-between items-center mt-4">
-                {/* COUNT */}
-                <span className="text-xs text-gray-400">
-                  {course.teachers?.length || 0} Teachers
-                </span>
-
-                {/* ACTION BUTTONS */}
-                <div className="flex gap-2">
-                  {/* VIEW TEACHERS */}
-                  <Link
-                    to={`/courses/${course._id}/teachers`}
-                    className="bg-gray-200 text-gray-700 px-3 py-1.5 text-sm rounded-lg hover:bg-gray-300 transition"
-                  >
-                    View Teachers
-                  </Link>
-
-                  {/* VIEW COURSE */}
-                  <Link
-                    to={`/courses/${course._id}`}
-                    className="bg-indigo-600 text-white px-3 py-1.5 text-sm rounded-lg hover:bg-indigo-700 transition"
-                  >
-                    View
-                  </Link>
+              {/* Footer row */}
+              <div
+                className="flex items-center justify-between border-t-2 border-slate-50 dark:border-slate-800"
+                style={{ paddingTop: '20px' }}
+              >
+                <div className="flex items-center" style={{ gap: '8px' }}>
+                  <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
+                    <Users size={14} className="text-indigo-600 dark:text-indigo-400" />
+                  </div>
+                  <span className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                    {course.teachers?.length || 0} Faculty
+                  </span>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors text-slate-400 dark:text-slate-500">
+                  <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

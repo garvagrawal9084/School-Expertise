@@ -12,11 +12,14 @@ API.interceptors.response.use(
   async (err) => {
     const originalRequest = err.config;
 
+    // Skip refresh logic for auth-check, login, and refresh-token endpoints
+    const skipUrls = ["/login", "/refresh-token", "/users/me"];
+    const shouldSkip = skipUrls.some((url) => originalRequest.url.includes(url));
+
     if (
       err.response?.status === 401 &&
       !originalRequest._retry &&
-      !originalRequest.url.includes("/login") &&
-      !originalRequest.url.includes("/refresh-token")
+      !shouldSkip
     ) {
       originalRequest._retry = true;
 
@@ -24,11 +27,13 @@ API.interceptors.response.use(
         await API.post("/users/refresh-token");
         return API(originalRequest);
       } catch (refreshError) {
-        // 🔥 STOP LOOP HERE
         console.error("Refresh failed, logging out");
-
         localStorage.removeItem("user");
-        window.location.href = "/login";
+
+        // Only redirect if not already on the login page to prevent loop
+        if (window.location.pathname !== "/login") {
+          window.location.href = "/login";
+        }
 
         return Promise.reject(refreshError);
       }

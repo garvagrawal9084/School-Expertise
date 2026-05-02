@@ -5,6 +5,7 @@ import {
   getTeachers,
   createCourse,
   getCourses,
+  deleteCourse,
   assignTeacher,
   getPendingRequests,
   approveTeacher,
@@ -18,8 +19,9 @@ const adminRouter = Router();
 
 
 adminRouter.get("/teachers", verifyJWT, verifyAdmin, getTeachers);
-adminRouter.delete("/delete/:id", verifyJWT, verifyAdmin, deleteTeacher);
+adminRouter.delete("/teachers/:id", verifyJWT, verifyAdmin, deleteTeacher);
 adminRouter.get("/courses", verifyJWT, verifyAdmin, getCourses);
+adminRouter.delete("/courses/:id", verifyJWT, verifyAdmin, deleteCourse);
 adminRouter.post("/assign", verifyJWT, verifyAdmin, assignTeacher);
 adminRouter.get("/requests", verifyJWT, verifyAdmin, getPendingRequests);
 adminRouter.post("/approve/:id", verifyJWT, verifyAdmin, approveTeacher);
