@@ -10,7 +10,7 @@ const MainLayout = ({ children }) => {
         {children}
       </main>
       
-      {/* BUGBUG FIX: Proper padding and flex structure for Footer */}
+      {}
       <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
         <div className="w-full flex flex-col md:flex-row items-center justify-between" style={{ paddingLeft: '48px', paddingRight: '48px', paddingTop: '32px', paddingBottom: '32px', gap: '24px' }}>
           

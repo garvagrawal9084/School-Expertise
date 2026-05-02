@@ -33,7 +33,7 @@ const Teachers = () => {
   return (
     <div className="animate-fade-in w-full" style={{ padding: '48px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
 
-      {/* HEADER */}
+      {}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between" style={{ gap: '20px' }}>
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Active Teachers</h1>
@@ -56,7 +56,7 @@ const Teachers = () => {
         )}
       </div>
 
-      {/* LOADING OR TEACHERS GRID */}
+      {}
       {loading ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3" style={{ gap: '24px' }}>
           {[1,2,3,4,5,6].map((i) => <div key={i} className="skeleton rounded-2xl" style={{ height: '260px' }} />)}

@@ -18,7 +18,7 @@ export const getTeachers = asyncHandler(async (req, res) => {
     .lean();
 
   const data = teachers
-    .filter(t => t.userId) // skip orphaned records
+    .filter(t => t.userId) 
     .map(t => ({
       _id: t.userId._id,
       teacherDocId: t._id,
@@ -44,7 +44,7 @@ export const deleteTeacher = asyncHandler(async (req, res) => {
   if (!id) throw new ApiError(400, "Teacher ID is required");
   if (!isValidId(id)) throw new ApiError(400, "Invalid teacher ID format");
 
-  // Try finding by Teacher doc _id first, then by userId
+  
   let teacher = await Teacher.findById(id);
   if (!teacher) {
     teacher = await Teacher.findOne({ userId: id });
@@ -193,7 +193,7 @@ export const getPendingRequests = asyncHandler(async (req, res) => {
 
   const requests = await TeacherRequest.find({ status: "PENDING" })
     .populate("userId", "name email")
-    .lean(); // 🔥 optimization
+    .lean(); 
 
   return res.status(200).json(
     new ApiResponse(200, requests, "Pending requests fetched")

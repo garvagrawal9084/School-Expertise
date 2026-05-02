@@ -12,7 +12,7 @@ export const getProfile = asyncHandler(async (req, res) => {
   let teacher = await Teacher.findOne({ userId: req.user._id })
     .populate("userId", "name email avatar");
 
-  // ✅ AUTO CREATE IF NOT EXISTS
+  
   if (!teacher) {
     teacher = await Teacher.create({
       userId: req.user._id,
@@ -109,7 +109,7 @@ export const updateTeacherAvatar = asyncHandler(async (req, res) => {
         throw new ApiError(404, "User not found");
     }
 
-    // delete old avatar if exists
+    
     if (user.avatar) {
         await destroyImageOnCloudinary(user.avatar);
     }
@@ -133,16 +133,16 @@ export const updateTeacherAvatar = asyncHandler(async (req, res) => {
 export const getTeacherProfile = asyncHandler(async (req, res) => {
   const userId = req.params.id;
 
-  // 1️⃣ Get user
+  
   const user = await User.findById(userId).select("name email avatar");
   if (!user) throw new ApiError(404, "Teacher not found");
 
-  // 2️⃣ Get teacher data
+  
   const teacher = await Teacher.findOne({ userId }).select(
     "bio experience specialization role"
   );
 
-  // 3️⃣ Get courses (correct)
+  
   const courses = await Course.find({
     teachers: userId
   }).select("title description");

@@ -5,7 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 const GuestRoute = ({ children }) => {
   const { user } = useContext(AuthContext);
 
-  // if logged in → redirect
+  
   if (user) {
     return <Navigate to="/" replace />;
   }

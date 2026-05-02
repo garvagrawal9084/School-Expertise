@@ -65,12 +65,12 @@ const register = asyncHandler(async (req, res) => {
     const newUser = await User.findById(user._id)
         .select("-password -refreshToken");
 
-    // if (req.body.teacherRequest) {
-    //     await TeacherRequest.create({
-    //         userId: user._id,
-    //         message: req.body.message,
-    //     });
-    // }
+    
+    
+    
+    
+    
+    
 
     if (
   req.body.teacherRequest === "true" ||
@@ -89,10 +89,10 @@ const register = asyncHandler(async (req, res) => {
 });
 
 const login = asyncHandler(async (req , res) => {
-    // get email and password form user
-    // check if get both or not
-    // generate token
-    // store the token in cookie
+    
+    
+    
+    
 
     const {email , password} = req.body ; 
 
@@ -118,7 +118,7 @@ const login = asyncHandler(async (req , res) => {
 
     const option = {
         httpOnly: true , 
-        // secure : true ,
+        
     }
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshToken") ; 

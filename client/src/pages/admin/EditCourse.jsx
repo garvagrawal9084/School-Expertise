@@ -103,7 +103,7 @@ const EditCourse = () => {
       </button>
 
       <div className="grid lg:grid-cols-3" style={{ gap: '32px' }}>
-        {/* LEFT COLUMN: EDIT DETAILS */}
+        {}
         <div className="lg:col-span-2">
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm" style={{ padding: '32px' }}>
             <div style={{ marginBottom: '24px' }}>
@@ -140,7 +140,7 @@ const EditCourse = () => {
                       {cat}
                     </button>
                   ))}
-                  {/* Custom categories added by user */}
+                  {}
                   {form.category.filter(c => !categories.includes(c)).map((cat) => (
                     <button key={cat} type="button" onClick={() => handleCategory(cat)}
                       className="transition-all duration-200 border-2 rounded-xl text-sm font-medium bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-500/25"
@@ -148,7 +148,7 @@ const EditCourse = () => {
                       {cat} ✕
                     </button>
                   ))}
-                  {/* Others button */}
+                  {}
                   <button type="button" onClick={() => setShowOthers((v) => !v)}
                     className={`inline-flex items-center transition-all duration-200 border-2 rounded-xl text-sm font-medium ${
                       showOthers
@@ -159,7 +159,7 @@ const EditCourse = () => {
                     <Tag size={13} /> Others
                   </button>
                 </div>
-                {/* Custom category input */}
+                {}
                 {showOthers && (
                   <div className="flex items-center" style={{ gap: '8px', marginTop: '12px' }}>
                     <input
@@ -193,7 +193,7 @@ const EditCourse = () => {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: MANAGE TEACHERS */}
+        {}
         <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm flex flex-col" style={{ padding: '32px' }}>
           <div className="flex items-start justify-between" style={{ marginBottom: '24px' }}>
             <div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import API from "../../api/api";
 import { toast } from "react-hot-toast";
-import { CheckCircle, XCircle, Clock, MessageSquare } from "lucide-react";
+import { CheckCircle, XCircle, Clock, MessageSquare, PartyPopper } from "lucide-react";
 
 const TeacherRequests = () => {
   const [requests, setRequests] = useState([]);
@@ -29,13 +29,13 @@ const TeacherRequests = () => {
   return (
     <div className="animate-fade-in w-full" style={{ padding: '48px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
       
-      {/* HEADER */}
+      {}
       <div>
         <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Teacher Requests</h2>
         <p className="text-slate-500 dark:text-slate-400 text-sm" style={{ marginTop: '4px' }}>Review and approve teacher applications</p>
       </div>
 
-      {/* LIST OR LOADING OR EMPTY */}
+      {}
       {loading ? (
         <div className="grid md:grid-cols-2" style={{ gap: '24px' }}>
           {[1,2,3,4].map(i => <div key={i} className="skeleton rounded-2xl" style={{ height: '220px' }} />)}
@@ -49,7 +49,9 @@ const TeacherRequests = () => {
             <CheckCircle size={28} className="text-emerald-500" />
           </div>
           <p className="text-slate-900 dark:text-white font-bold text-lg">All caught up!</p>
-          <p className="text-slate-500 dark:text-slate-400 text-sm" style={{ marginTop: '4px' }}>No pending requests 🎉</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm flex items-center justify-center gap-1.5" style={{ marginTop: '4px' }}>
+            No pending requests <PartyPopper size={16} className="text-amber-500" />
+          </p>
         </div>
       ) : (
         <div className="grid md:grid-cols-2 stagger" style={{ gap: '24px' }}>
@@ -59,7 +61,7 @@ const TeacherRequests = () => {
               className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-300 animate-slide-up flex flex-col"
               style={{ padding: '28px' }}
             >
-              {/* Card Header */}
+              {}
               <div className="flex items-center" style={{ gap: '12px' }}>
                 <div
                   className="rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-base shadow-lg shadow-indigo-500/20 shrink-0"
@@ -79,7 +81,7 @@ const TeacherRequests = () => {
                 </span>
               </div>
 
-              {/* Message Box */}
+              {}
               {req.message && (
                 <div
                   className="flex items-start text-sm text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700/50 flex-1"
@@ -90,7 +92,7 @@ const TeacherRequests = () => {
                 </div>
               )}
 
-              {/* Action Buttons */}
+              {}
               <div className="flex" style={{ gap: '12px', marginTop: req.message ? '24px' : '32px' }}>
                 <button
                   onClick={() => handleApprove(req._id)}

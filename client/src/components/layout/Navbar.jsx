@@ -27,7 +27,7 @@ const Navbar = ({ isAdmin }) => {
       <div className="w-full" style={isAdmin ? { paddingLeft: '24px', paddingRight: '32px' } : { paddingLeft: '48px', paddingRight: '48px' }}>
         <div className={`flex items-center h-20 ${isAdmin ? 'justify-end' : 'justify-between'}`}>
           
-          {/* Logo Section */}
+          {}
           {!isAdmin && (
             <Link to="/" className="flex items-center gap-3 group shrink-0">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform">
@@ -39,7 +39,7 @@ const Navbar = ({ isAdmin }) => {
             </Link>
           )}
 
-          {/* Center Nav Links */}
+          {}
           {!isAdmin && (
             <div className="hidden md:flex items-center gap-8 mx-auto">
               {navLinks.filter(l => l.show).map((link) => (
@@ -55,7 +55,7 @@ const Navbar = ({ isAdmin }) => {
             </div>
           )}
 
-          {/* Right Action Section */}
+          {}
           <div className="flex items-center gap-4 ml-auto">
             <button onClick={toggleTheme} className="p-2 rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0" aria-label="Toggle theme">
               {dark ? <Sun size={20} className="text-amber-400" /> : <Moon size={20} />}

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "/api/v1", // adjust if needed
+  baseURL: "/api/v1", 
   withCredentials: true,
 });
 
@@ -12,7 +12,7 @@ API.interceptors.response.use(
   async (err) => {
     const originalRequest = err.config;
 
-    // Skip refresh logic for auth-check, login, and refresh-token endpoints
+    
     const skipUrls = ["/login", "/refresh-token", "/users/me"];
     const shouldSkip = skipUrls.some((url) => originalRequest.url.includes(url));
 
@@ -30,7 +30,7 @@ API.interceptors.response.use(
         console.error("Refresh failed, logging out");
         localStorage.removeItem("user");
 
-        // Only redirect if not already on the login page to prevent loop
+        
         if (window.location.pathname !== "/login") {
           window.location.href = "/login";
         }

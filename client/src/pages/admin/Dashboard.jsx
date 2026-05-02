@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../api/api";
-import { BookOpen, Users, Clock, ArrowRight, Plus, CheckCircle, TrendingUp, Activity } from "lucide-react";
+import { BookOpen, Users, Clock, ArrowRight, Plus, CheckCircle, TrendingUp, Activity, PartyPopper } from "lucide-react";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ const Dashboard = () => {
   return (
     <div className="animate-fade-in w-full" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
 
-      {/* HEADER */}
+      {}
       <div className="flex items-center justify-between flex-wrap" style={{ gap: '16px' }}>
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Admin Dashboard</h1>
@@ -48,7 +48,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* STATS */}
+      {}
       {loading ? (
         <div className="grid sm:grid-cols-2 lg:grid-cols-4" style={{ gap: '20px' }}>
           {[1,2,3,4].map(i => <div key={i} className="skeleton rounded-2xl" style={{ height: '112px' }} />)}
@@ -75,7 +75,7 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* QUICK ACTIONS */}
+      {}
       <div
         className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl"
         style={{ padding: '28px 32px' }}
@@ -106,7 +106,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* RECENT REQUESTS */}
+      {}
       <div
         className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl"
         style={{ padding: '28px 32px' }}
@@ -131,7 +131,9 @@ const Dashboard = () => {
               <CheckCircle size={24} className="text-emerald-500" />
             </div>
             <p className="text-slate-900 dark:text-white font-medium">All caught up!</p>
-            <p className="text-slate-500 dark:text-slate-400 text-sm" style={{ marginTop: '4px' }}>No pending requests 🎉</p>
+            <p className="text-slate-500 dark:text-slate-400 text-sm flex items-center justify-center gap-1.5" style={{ marginTop: '4px' }}>
+              No pending requests <PartyPopper size={16} className="text-amber-500" />
+            </p>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>

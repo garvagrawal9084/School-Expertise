@@ -33,7 +33,7 @@ const Home = () => {
   return (
     <div className="animate-fade-in bg-slate-50 dark:bg-[#0b1120]">
 
-      {/* ============ HERO ============ */}
+      {}
       <section
         className="relative overflow-hidden bg-white dark:bg-[#0b1120] border-b border-slate-100 dark:border-slate-800"
         style={{ paddingTop: '80px', paddingBottom: '80px' }}
@@ -85,7 +85,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ============ COURSES ============ */}
+      {}
       <section style={{ marginTop: '80px', marginBottom: '60px', paddingTop: '40px', paddingBottom: '40px', paddingLeft: '48px', paddingRight: '48px' }}>
         <div>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end" style={{ marginBottom: '48px', gap: '16px' }}>
@@ -151,7 +151,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* ============ FEATURES ============ */}
+      {}
       <section
         className="bg-white dark:bg-slate-900 border-t border-slate-100 dark:border-slate-800"
         style={{ marginTop: '100px', marginBottom: '60px', paddingTop: '80px', paddingBottom: '80px', paddingLeft: '48px', paddingRight: '48px' }}

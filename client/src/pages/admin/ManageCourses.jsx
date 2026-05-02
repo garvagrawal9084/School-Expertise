@@ -36,7 +36,7 @@ const ManageCourses = () => {
   return (
     <div className="animate-fade-in w-full" style={{ padding: '48px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
 
-      {/* HEADER */}
+      {}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between" style={{ gap: '20px' }}>
         <div>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Manage Courses</h2>
@@ -64,7 +64,7 @@ const ManageCourses = () => {
         </div>
       </div>
 
-      {/* STATS BAR */}
+      {}
       <div className="grid grid-cols-2 sm:grid-cols-4" style={{ gap: '20px' }}>
         {[
           { label: "TOTAL COURSES", val: courses.length },
@@ -85,7 +85,7 @@ const ManageCourses = () => {
         ))}
       </div>
 
-      {/* COURSE LIST OR LOADING */}
+      {}
       {loading ? (
         <div className="grid md:grid-cols-2 lg:grid-cols-3" style={{ gap: '24px' }}>
           {[1,2,3,4,5,6].map(i => <div key={i} className="skeleton rounded-2xl" style={{ height: '220px' }} />)}
@@ -112,7 +112,7 @@ const ManageCourses = () => {
               className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200 dark:hover:border-indigo-800 hover:-translate-y-1 transition-all duration-300 group animate-slide-up flex flex-col"
               style={{ padding: '28px' }}
             >
-              {/* Category Badges */}
+              {}
               <div className="flex flex-wrap" style={{ gap: '8px', marginBottom: '16px' }}>
                 {course.category?.map((cat, i) => (
                   <span
@@ -125,7 +125,7 @@ const ManageCourses = () => {
                 ))}
               </div>
 
-              {/* Title & Description */}
+              {}
               <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 {course.title}
               </h3>
@@ -133,7 +133,7 @@ const ManageCourses = () => {
                 {course.description || "No description"}
               </p>
 
-              {/* Teachers */}
+              {}
               <div className="flex items-center" style={{ gap: '8px', marginBottom: '20px' }}>
                 {course.teachers?.length > 0 ? (
                   <div className="flex items-center" style={{ gap: '6px' }}>
@@ -157,7 +157,7 @@ const ManageCourses = () => {
                 )}
               </div>
 
-              {/* Action Buttons */}
+              {}
               <div className="flex border-t border-slate-100 dark:border-slate-800 pt-5" style={{ gap: '10px' }}>
                 <button
                   onClick={() => navigate(`/admin/assign/${course._id}`)}

@@ -1,11 +1,11 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 
-// Layouts
+
 import MainLayout from "./components/layout/MainLayout";
 import AdminLayout from "./components/layout/AdminLayout";
 
-// Pages
+
 import Home from "./pages/Home";
 import Courses from "./pages/Courses";
 import CourseDetail from "./pages/CourseDetail";
@@ -14,7 +14,7 @@ import TeacherProfile from "./pages/TeacherProfile";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
-// Admin Pages
+
 import AdminDashboard from "./pages/admin/Dashboard";
 import ManageCourses from "./pages/admin/ManageCourses";
 import AddCourse from "./pages/admin/AddCourse";
@@ -23,10 +23,10 @@ import AssignTeacher from "./pages/admin/AssignTeacher";
 import TeacherRequests from "./pages/admin/TeacherRequests";
 import Teachers from "./pages/admin/Teachers";
 
-// Teacher Pages
+
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
 
-// Loading Component
+
 const LoadingScreen = () => (
   <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-[#0f172a]">
     <div className="flex flex-col items-center gap-4 animate-fade-in">
@@ -45,7 +45,7 @@ const App = () => {
     <Router>
       <Routes>
 
-        {/* ============ HOME ============ */}
+        {}
         <Route
           path="/"
           element={
@@ -59,11 +59,11 @@ const App = () => {
           }
         />
 
-        {/* ============ AUTH ============ */}
+        {}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* ============ COURSES (public browsing, login for details) ============ */}
+        {}
         <Route
           path="/courses"
           element={
@@ -73,7 +73,7 @@ const App = () => {
           }
         />
 
-        {/* COURSE DETAIL */}
+        {}
         <Route
           path="/courses/:id"
           element={
@@ -83,7 +83,7 @@ const App = () => {
           }
         />
 
-        {/* COURSE TEACHERS */}
+        {}
         <Route
           path="/courses/:id/teachers"
           element={
@@ -97,7 +97,7 @@ const App = () => {
           }
         />
 
-        {/* TEACHER PROFILE (public) */}
+        {}
         <Route
           path="/teacher/:id"
           element={
@@ -107,7 +107,7 @@ const App = () => {
           }
         />
 
-        {/* ============ ADMIN ============ */}
+        {}
         <Route
           path="/admin/dashboard"
           element={
@@ -193,7 +193,7 @@ const App = () => {
           }
         />
 
-        {/* ============ TEACHER ============ */}
+        {}
         <Route
           path="/teacher/dashboard"
           element={
@@ -207,7 +207,7 @@ const App = () => {
           }
         />
 
-        {/* ============ CATCH ALL ============ */}
+        {}
         <Route path="*" element={<Navigate to="/" />} />
 
       </Routes>

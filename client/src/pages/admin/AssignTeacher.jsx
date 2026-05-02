@@ -56,7 +56,7 @@ const AssignTeacher = () => {
   return (
     <div className="animate-fade-in w-full" style={{ padding: '48px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
       
-      {/* Back Button */}
+      {}
       <button
         onClick={() => navigate("/admin/courses")}
         className="inline-flex items-center text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium self-start"
@@ -65,7 +65,7 @@ const AssignTeacher = () => {
         <ArrowLeft size={16} /> Back to Courses
       </button>
 
-      {/* HEADER */}
+      {}
       <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between" style={{ gap: '16px', marginTop: '-8px' }}>
         <div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white">Assign Teachers</h1>
@@ -76,7 +76,7 @@ const AssignTeacher = () => {
         </div>
       </div>
 
-      {/* SEARCH BAR */}
+      {}
       <div className="relative" style={{ maxWidth: '448px' }}>
         <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" style={{ left: '14px' }} />
         <input
@@ -89,7 +89,7 @@ const AssignTeacher = () => {
         />
       </div>
 
-      {/* CONTENT */}
+      {}
       {loading ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {[1,2,3,4].map(i => <div key={i} className="skeleton rounded-2xl" style={{ height: '112px' }} />)}
@@ -180,7 +180,7 @@ const AssignTeacher = () => {
         </div>
       )}
 
-      {/* STICKY BOTTOM ACTION BAR */}
+      {}
       {teachers.length > 0 && (
         <div
           className="flex items-center justify-between bg-white dark:bg-slate-900 border-2 border-indigo-100 dark:border-indigo-900/50 rounded-2xl sticky bottom-4 shadow-xl"

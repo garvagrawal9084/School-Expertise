@@ -21,7 +21,7 @@ const CourseDetail = () => {
   return (
     <div className="animate-fade-in w-full" style={{ padding: '48px' }}>
 
-      {/* Back link */}
+      {}
       <Link
         to="/courses"
         className="inline-flex items-center text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium"
@@ -46,14 +46,14 @@ const CourseDetail = () => {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
 
-          {/* Course info card */}
+          {}
           <div
             className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm overflow-hidden relative"
             style={{ padding: '40px' }}
           >
             <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500" style={{ height: '4px' }} />
 
-            {/* Icon + title */}
+            {}
             <div className="flex items-start" style={{ gap: '20px', marginBottom: '20px' }}>
               <div
                 className="rounded-xl bg-indigo-50 dark:bg-indigo-900/20 flex items-center justify-center shrink-0"
@@ -69,7 +69,7 @@ const CourseDetail = () => {
               </div>
             </div>
 
-            {/* Category tags */}
+            {}
             <div className="flex flex-wrap" style={{ gap: '8px', marginTop: '8px' }}>
               {course.category?.map((cat) => (
                 <span
@@ -83,7 +83,7 @@ const CourseDetail = () => {
             </div>
           </div>
 
-          {/* Teachers section */}
+          {}
           <div>
             <div className="flex items-center" style={{ gap: '12px', marginBottom: '28px' }}>
               <div
@@ -105,7 +105,7 @@ const CourseDetail = () => {
                     className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl hover:shadow-xl hover:shadow-indigo-500/5 hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-300 group animate-slide-up"
                     style={{ padding: '28px' }}
                   >
-                    {/* Teacher info */}
+                    {}
                     <div className="flex items-center" style={{ gap: '16px', marginBottom: '20px' }}>
                       <img
                         src={teacher.avatar || `https://ui-avatars.com/api/?name=${teacher.name}&background=6366f1&color=fff&size=48&font-size=0.4`}
@@ -119,7 +119,7 @@ const CourseDetail = () => {
                       </div>
                     </div>
 
-                    {/* View Profile button */}
+                    {}
                     <Link
                       to={`/teacher/${teacher._id}`}
                       className="flex items-center justify-center gap-2 w-full text-xs font-semibold bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 transition-all"

@@ -97,20 +97,20 @@ const TeacherDashboard = () => {
   return (
     <div className="animate-fade-in w-full" style={{ padding: '48px' }}>
 
-      {/* PROFILE HEADER CARD */}
+      {}
       <div
         className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm"
         style={{ marginBottom: '28px' }}
       >
-        {/* Banner */}
+        {}
         <div className="relative bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600" style={{ height: '120px' }}>
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.15),transparent)]" />
         </div>
 
-        {/* Avatar + Name */}
+        {}
         <div style={{ padding: '0 40px 36px' }}>
           <div className="relative z-10 flex flex-col sm:flex-row items-start" style={{ gap: '20px', marginTop: '-44px' }}>
-            {/* Avatar with camera overlay */}
+            {}
             <div className="relative group" style={{ flexShrink: 0 }}>
               <img
                 src={avatarUrl}
@@ -150,7 +150,7 @@ const TeacherDashboard = () => {
             </div>
           </div>
 
-          {/* Stats row */}
+          {}
           <div className="grid grid-cols-3" style={{ gap: '16px', marginTop: '32px' }}>
             {[
               { icon: Briefcase, val: profile?.experience || 0, label: "Years Exp.", bg: "bg-indigo-50 dark:bg-indigo-900/20", color: "text-indigo-500" },
@@ -175,7 +175,7 @@ const TeacherDashboard = () => {
         </div>
       </div>
 
-      {/* EDIT PROFILE CARD */}
+      {}
       <div
         className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm"
         style={{ padding: '36px 40px', marginBottom: '28px' }}
@@ -183,7 +183,7 @@ const TeacherDashboard = () => {
         <h2 className="text-lg font-bold text-slate-900 dark:text-white" style={{ marginBottom: '24px' }}>Edit Profile</h2>
         <form onSubmit={handleUpdate}>
 
-          {/* Bio */}
+          {}
           <div style={{ marginBottom: '20px' }}>
             <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Bio</label>
             <textarea
@@ -196,7 +196,7 @@ const TeacherDashboard = () => {
             />
           </div>
 
-          {/* Experience */}
+          {}
           <div style={{ marginBottom: '20px' }}>
             <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Experience (years)</label>
             <input
@@ -210,7 +210,7 @@ const TeacherDashboard = () => {
             />
           </div>
 
-          {/* Role */}
+          {}
           <div style={{ marginBottom: '20px' }}>
             <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Academic Role</label>
             <select
@@ -225,7 +225,7 @@ const TeacherDashboard = () => {
             </select>
           </div>
 
-          {/* Specialization */}
+          {}
           <div style={{ marginBottom: '32px' }}>
             <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Specialization</label>
             <input
@@ -239,7 +239,7 @@ const TeacherDashboard = () => {
             <p className="text-xs text-slate-400" style={{ marginTop: '6px' }}>Separate multiple skills with commas</p>
           </div>
 
-          {/* FIX 2: Update Profile button at bottom of form */}
+          {}
           <button
             type="submit"
             disabled={updating}
@@ -253,7 +253,7 @@ const TeacherDashboard = () => {
         </form>
       </div>
 
-      {/* MY COURSES CARD */}
+      {}
       <div
         className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm"
         style={{ padding: '36px 40px' }}

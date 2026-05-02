@@ -44,7 +44,7 @@ const Login = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0b1120] transition-colors">
 
-      {/* TOP BAR */}
+      {}
       <div
         className="flex items-center justify-between w-full"
         style={{ padding: '20px 48px' }}
@@ -79,7 +79,7 @@ const Login = () => {
         </div>
       </div>
 
-      {/* MAIN */}
+      {}
       <div
         className="flex items-center justify-center"
         style={{ minHeight: 'calc(100vh - 80px)', padding: '40px 24px' }}
@@ -89,7 +89,7 @@ const Login = () => {
             className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden"
             style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.08)' }}
           >
-            {/* BANNER */}
+            {}
             <div
               className="bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-500 text-white text-center relative overflow-hidden"
               style={{ padding: '48px 40px' }}
@@ -108,10 +108,10 @@ const Login = () => {
               </div>
             </div>
 
-            {/* FORM */}
+            {}
             <form onSubmit={handleSubmit} style={{ padding: '40px' }}>
 
-              {/* Email field */}
+              {}
               <div style={{ marginBottom: '24px' }}>
                 <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   Email Address
@@ -130,7 +130,7 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Password field */}
+              {}
               <div style={{ marginBottom: '32px' }}>
                 <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   Password
@@ -157,7 +157,7 @@ const Login = () => {
                 </div>
               </div>
 
-              {/* Submit button */}
+              {}
               <button
                 type="submit"
                 disabled={loading}

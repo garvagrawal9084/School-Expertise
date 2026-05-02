@@ -43,7 +43,7 @@ const Signup = () => {
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#0b1120] transition-colors">
 
-      {/* TOP BAR */}
+      {}
       <div
         className="flex items-center justify-between w-full"
         style={{ padding: '20px 48px' }}
@@ -77,7 +77,7 @@ const Signup = () => {
         </div>
       </div>
 
-      {/* MAIN */}
+      {}
       <div
         className="flex items-center justify-center"
         style={{ minHeight: 'calc(100vh - 80px)', padding: '32px 24px' }}
@@ -87,7 +87,7 @@ const Signup = () => {
             className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden"
             style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.08)' }}
           >
-            {/* BANNER */}
+            {}
             <div
               className="bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-500 text-white text-center relative overflow-hidden"
               style={{ padding: '44px 40px' }}
@@ -101,10 +101,10 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* FORM */}
+            {}
             <form onSubmit={handleSubmit} style={{ padding: '40px' }}>
 
-              {/* Full Name */}
+              {}
               <div style={{ marginBottom: '24px' }}>
                 <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Full Name</label>
                 <div className="relative" style={{ marginTop: '10px' }}>
@@ -117,7 +117,7 @@ const Signup = () => {
                 </div>
               </div>
 
-              {/* Email */}
+              {}
               <div style={{ marginBottom: '24px' }}>
                 <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Email Address</label>
                 <div className="relative" style={{ marginTop: '10px' }}>
@@ -130,7 +130,7 @@ const Signup = () => {
                 </div>
               </div>
 
-              {/* Password */}
+              {}
               <div style={{ marginBottom: '24px' }}>
                 <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Password</label>
                 <div className="relative" style={{ marginTop: '10px' }}>
@@ -144,7 +144,7 @@ const Signup = () => {
                 <p className="text-xs text-slate-400 text-right" style={{ marginTop: '6px' }}>Must be at least 6 characters</p>
               </div>
 
-              {/* Avatar Upload */}
+              {}
               <div style={{ marginBottom: '24px' }}>
                 <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Upload Avatar</label>
                 <div
@@ -152,30 +152,16 @@ const Signup = () => {
                   style={{ padding: '24px', marginTop: '10px' }}
                 >
                   <input
-                    type="file" accept="image/*" id="avatarUpload" className="hidden"
-                    onChange={(e) => { const file = e.target.files[0]; setForm({ ...form, avatar: file }); if (file) setPreview(URL.createObjectURL(file)); }}
+                    type="file" accept="image/*"
+                    onChange={(e) => setForm({ ...form, avatar: e.target.files[0] })}
+                    className="w-full text-sm text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700 cursor-pointer"
                   />
-                  <label htmlFor="avatarUpload" className="cursor-pointer">
-                    {preview ? (
-                      <img src={preview} alt="preview" className="object-cover mx-auto rounded-full border-4 border-indigo-100 dark:border-indigo-900 shadow-lg" style={{ width: '80px', height: '80px' }} />
-                    ) : (
-                      <div className="flex flex-col items-center" style={{ gap: '8px' }}>
-                        <div
-                          className="rounded-xl bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center"
-                          style={{ width: '44px', height: '44px' }}
-                        >
-                          <Upload size={20} className="text-indigo-600 dark:text-indigo-400" />
-                        </div>
-                        <p className="text-indigo-600 dark:text-indigo-400 font-medium text-sm">Upload a file or drag and drop</p>
-                        <p className="text-xs text-slate-400">PNG, JPG up to 10MB</p>
-                      </div>
-                    )}
-                  </label>
                 </div>
               </div>
 
-              {/* Teacher Checkbox */}
+              {/* Role Selection */}
               <div
+
                 className="flex items-center rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700"
                 style={{ gap: '12px', padding: '14px 16px', marginBottom: '24px' }}
               >
@@ -202,7 +188,7 @@ const Signup = () => {
                 </div>
               )}
 
-              {/* Submit */}
+              {}
               <button
                 type="submit"
                 disabled={loading}

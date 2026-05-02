@@ -1,20 +1,20 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import API from "../api/api";
 
-// Create Context
+
 export const AuthContext = createContext();
 
-// Custom hook
+
 export const useAuth = () => {
   return useContext(AuthContext);
 };
 
-// Provider
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // On mount: try to fetch user from backend using cookies
+  
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
         setUser(userData);
         localStorage.setItem("user", JSON.stringify(userData));
       } catch (err) {
-        // Cookies invalid or expired — clear everything
+        
         setUser(null);
         localStorage.removeItem("user");
       } finally {
@@ -34,13 +34,13 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  // Login function — call after successful login API
+  
   const login = (userData) => {
     setUser(userData);
     localStorage.setItem("user", JSON.stringify(userData));
   };
 
-  // Logout function — calls API to clear server cookies
+  
   const logout = async () => {
     try {
       await API.post("/users/logout");
@@ -52,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // Role helpers
+  
   const isAdmin = user?.role === "ADMIN";
   const isTeacher = user?.role === "TEACHER";
   const isStudent = user?.role === "STUDENT";

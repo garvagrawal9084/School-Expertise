@@ -40,7 +40,7 @@ const SuggestTeacherModal = ({ course, onClose }) => {
     <div className="fixed z-50 flex items-center justify-center" style={{ top: 0, left: 0, right: 0, bottom: 0, padding: '16px' }}>
       <div className="absolute bg-slate-900/50 backdrop-blur-sm" style={{ top: 0, left: 0, right: 0, bottom: 0 }} onClick={onClose} />
       <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl flex flex-col animate-scale-in" style={{ width: '100%', maxWidth: '512px', maxHeight: '80vh', backgroundColor: 'var(--tw-bg-opacity, 1)' }}>
-        {/* HEADER */}
+        {}
         <div className="border-b border-slate-100 dark:border-slate-800" style={{ padding: '24px' }}>
           <div className="flex items-start justify-between">
             <div>
@@ -59,7 +59,7 @@ const SuggestTeacherModal = ({ course, onClose }) => {
           </div>
         </div>
 
-        {/* BODY */}
+        {}
         <div className="overflow-y-auto" style={{ flex: 1, padding: '16px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {loading ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>{[1,2,3].map(i => <div key={i} className="skeleton rounded-xl" style={{ height: '96px' }} />)}</div>
@@ -101,7 +101,7 @@ const SuggestTeacherModal = ({ course, onClose }) => {
           )}
         </div>
 
-        {/* FOOTER */}
+        {}
         <div className="border-t border-slate-100 dark:border-slate-800 flex justify-end" style={{ padding: '16px' }}>
           <button onClick={onClose} className="inline-flex items-center bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl font-semibold text-sm border-2 border-slate-200 dark:border-slate-700 hover:border-indigo-300 transition-all" style={{ gap: '8px', padding: '10px 20px' }}>Close</button>
         </div>

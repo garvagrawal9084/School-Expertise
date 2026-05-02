@@ -27,7 +27,7 @@ const Courses = () => {
       className="animate-fade-in w-full"
       style={{ padding: '60px 48px' }}
     >
-      {/* Header row */}
+      {}
       <div
         className="flex flex-col sm:flex-row sm:items-end sm:justify-between"
         style={{ gap: '16px', marginBottom: '48px' }}
@@ -73,7 +73,7 @@ const Courses = () => {
               className="group flex flex-col bg-white dark:bg-slate-900 border-2 border-slate-100 dark:border-slate-800 rounded-3xl hover:border-indigo-600 dark:hover:border-indigo-500 hover:shadow-2xl hover:shadow-indigo-500/10 transition-all duration-300 animate-slide-up"
               style={{ padding: '32px' }}
             >
-              {/* Tags */}
+              {}
               <div className="flex flex-wrap" style={{ gap: '8px', marginBottom: '20px' }}>
                 {course.category?.map((cat) => (
                   <span
@@ -86,7 +86,7 @@ const Courses = () => {
                 ))}
               </div>
 
-              {/* Title */}
+              {}
               <h2
                 className="text-xl font-black text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-snug"
                 style={{ marginBottom: '12px' }}
@@ -94,7 +94,7 @@ const Courses = () => {
                 {course.title}
               </h2>
 
-              {/* Description */}
+              {}
               <p
                 className="text-slate-500 dark:text-slate-400 text-sm flex-1 line-clamp-3 leading-relaxed"
                 style={{ marginBottom: '24px' }}
@@ -102,7 +102,7 @@ const Courses = () => {
                 {course.description || "No description available"}
               </p>
 
-              {/* Footer row */}
+              {}
               <div
                 className="flex items-center justify-between border-t-2 border-slate-50 dark:border-slate-800"
                 style={{ paddingTop: '20px' }}

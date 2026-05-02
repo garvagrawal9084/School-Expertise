@@ -21,7 +21,7 @@ const TeacherProfile = () => {
   return (
     <div className="animate-fade-in w-full" style={{ padding: '48px' }}>
 
-      {/* Back link */}
+      {}
       <Link
         to="/courses"
         className="inline-flex items-center text-sm text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors font-medium"
@@ -51,14 +51,14 @@ const TeacherProfile = () => {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
 
-          {/* PROFILE CARD */}
+          {}
           <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
-            {/* Banner */}
+            {}
             <div className="relative bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-600" style={{ height: '120px' }}>
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent)]" />
             </div>
 
-            {/* Avatar + info */}
+            {}
             <div style={{ padding: '0 40px 40px' }}>
               <div className="relative z-10 flex flex-col sm:flex-row items-start" style={{ gap: '20px', marginTop: '-40px' }}>
                 <img
@@ -86,7 +86,7 @@ const TeacherProfile = () => {
                 </div>
               </div>
 
-              {/* Stats row */}
+              {}
               <div className="grid grid-cols-2 sm:grid-cols-3" style={{ gap: '16px', marginTop: '32px' }}>
                 {[
                   { icon: Briefcase, val: teacher.experience || 0, label: "Years Exp.", bg: "bg-indigo-50 dark:bg-indigo-900/20", color: "text-indigo-500" },
@@ -111,7 +111,7 @@ const TeacherProfile = () => {
             </div>
           </div>
 
-          {/* BIO */}
+          {}
           <div
             className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm"
             style={{ padding: '36px 40px' }}
@@ -120,7 +120,7 @@ const TeacherProfile = () => {
             <p className="text-slate-600 dark:text-slate-400 leading-relaxed">{teacher.bio || "No bio available"}</p>
           </div>
 
-          {/* COURSES */}
+          {}
           <div
             className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm"
             style={{ padding: '36px 40px' }}

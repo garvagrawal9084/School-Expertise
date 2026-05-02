@@ -79,14 +79,14 @@ const AddCourse = () => {
                       {cat}
                     </button>
                   ))}
-                  {/* Custom categories added by user */}
+                  {}
                   {form.category.filter(c => !categories.includes(c)).map((cat) => (
                     <button key={cat} type="button" onClick={() => handleCategory(cat)}
                       className="px-4 py-2 text-sm rounded-xl font-medium transition-all duration-200 border-2 bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-500/25">
                       {cat} ✕
                     </button>
                   ))}
-                  {/* Others button */}
+                  {}
                   <button type="button" onClick={() => setShowOthers((v) => !v)}
                     className={`inline-flex items-center px-4 py-2 text-sm rounded-xl font-medium transition-all duration-200 border-2 ${
                       showOthers
@@ -98,7 +98,7 @@ const AddCourse = () => {
                   </button>
                 </div>
               )}
-              {/* Custom category input */}
+              {}
               {showOthers && (
                 <div className="flex items-center mt-3" style={{ gap: '8px' }}>
                   <input

@@ -98,7 +98,7 @@ const getCourseById = asyncHandler(async (req, res) => {
   const course = await Course.findById(req.params.id)
     .populate({
       path: "teachers",
-      select: "name email avatar"   // ✅ DIRECT FROM USER
+      select: "name email avatar"   
     });
 
   if (!course) throw new ApiError(404, "Course not found");

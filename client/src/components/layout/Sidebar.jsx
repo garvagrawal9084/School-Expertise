@@ -17,7 +17,7 @@ const Sidebar = () => {
       className="hidden lg:flex flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 transition-colors duration-300"
       style={{ width: '260px', minHeight: '100vh', flexShrink: 0 }}
     >
-      {/* Logo / Brand */}
+      {}
       <div
         className="border-b border-slate-100 dark:border-slate-800"
         style={{ padding: '24px 24px 20px' }}
@@ -38,7 +38,7 @@ const Sidebar = () => {
         </Link>
       </div>
 
-      {/* Nav Links */}
+      {}
       <nav className="flex-1" style={{ padding: '16px 12px' }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           {links.map(({ to, label, icon: Icon }) => (
@@ -65,7 +65,7 @@ const Sidebar = () => {
         </div>
       </nav>
 
-      {/* Back to Home */}
+      {}
       <div className="border-t border-slate-100 dark:border-slate-800" style={{ padding: '16px 12px' }}>
         <Link
           to="/"
