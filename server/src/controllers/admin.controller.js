@@ -12,13 +12,27 @@ import mongoose from "mongoose";
 
 export const getTeachers = asyncHandler(async (req, res) => {
 
-  const teachers = await User.find({ role: "TEACHER" })
-  .select("name email")
-  .lean();// 🔥 optimization
+  const teachers = await Teacher.find()
+    .populate("userId", "name email avatar")
+    .select("userId bio role specialization experience")
+    .lean();
 
+  const data = teachers
+    .filter(t => t.userId) // skip orphaned records
+    .map(t => ({
+      _id: t.userId._id,
+      teacherDocId: t._id,
+      name: t.userId.name,
+      email: t.userId.email,
+      avatar: t.userId.avatar,
+      bio: t.bio || "",
+      role: t.role || "Lecturer",
+      specialization: t.specialization || [],
+      experience: t.experience || 0,
+    }));
 
   return res.status(200).json(
-    new ApiResponse(200, teachers, "Fetched teacher successfully")
+    new ApiResponse(200, data, "Fetched teacher successfully")
   );
 });
 
@@ -110,6 +124,27 @@ export const deleteCourse = asyncHandler(async (req, res) => {
   );
 });
 
+export const updateCourse = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  const { title, description, category } = req.body;
+
+  if (!id) throw new ApiError(400, "Course ID is required");
+  if (!isValidId(id)) throw new ApiError(400, "Invalid course ID format");
+
+  const course = await Course.findById(id);
+  if (!course) throw new ApiError(404, "Course not found");
+
+  if (title) course.title = title;
+  if (description) course.description = description;
+  if (category) course.category = category;
+
+  await course.save();
+
+  return res.status(200).json(
+    new ApiResponse(200, course, "Course updated successfully")
+  );
+});
+
 
 
 export const assignTeacher = asyncHandler(async (req, res) => {
@@ -132,6 +167,24 @@ export const assignTeacher = asyncHandler(async (req, res) => {
 
   return res.status(200).json(
     new ApiResponse(200, null, "Teachers assigned successfully")
+  );
+});
+
+export const unassignTeacher = asyncHandler(async (req, res) => {
+  const { teacherId, courseId } = req.body;
+
+  if (!teacherId || !courseId) {
+    throw new ApiError(400, "Teacher ID and Course ID are required");
+  }
+
+  const course = await Course.findById(courseId);
+  if (!course) throw new ApiError(404, "Course not found");
+
+  course.teachers = course.teachers.filter(id => id.toString() !== teacherId.toString());
+  await course.save();
+
+  return res.status(200).json(
+    new ApiResponse(200, null, "Teacher unassigned successfully")
   );
 });
 

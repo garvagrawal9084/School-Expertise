@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../api/api";
 import { toast } from "react-hot-toast";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft, Plus, Tag } from "lucide-react";
 
 const AddCourse = () => {
   const navigate = useNavigate();
@@ -10,6 +10,8 @@ const AddCourse = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingCats, setLoadingCats] = useState(true);
+  const [showOthers, setShowOthers] = useState(false);
+  const [customCat, setCustomCat] = useState("");
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -21,6 +23,15 @@ const AddCourse = () => {
   }, []);
 
   const handleCategory = (cat) => setForm((prev) => ({ ...prev, category: prev.category.includes(cat) ? prev.category.filter((c) => c !== cat) : [...prev.category, cat] }));
+
+  const handleAddCustom = () => {
+    const trimmed = customCat.trim();
+    if (!trimmed) return;
+    if (form.category.includes(trimmed)) return toast.error("Already added");
+    setForm((prev) => ({ ...prev, category: [...prev.category, trimmed] }));
+    setCustomCat("");
+    setShowOthers(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,6 +79,43 @@ const AddCourse = () => {
                       {cat}
                     </button>
                   ))}
+                  {/* Custom categories added by user */}
+                  {form.category.filter(c => !categories.includes(c)).map((cat) => (
+                    <button key={cat} type="button" onClick={() => handleCategory(cat)}
+                      className="px-4 py-2 text-sm rounded-xl font-medium transition-all duration-200 border-2 bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-500/25">
+                      {cat} ✕
+                    </button>
+                  ))}
+                  {/* Others button */}
+                  <button type="button" onClick={() => setShowOthers((v) => !v)}
+                    className={`inline-flex items-center px-4 py-2 text-sm rounded-xl font-medium transition-all duration-200 border-2 ${
+                      showOthers
+                        ? "bg-emerald-600 text-white border-emerald-600 shadow-lg shadow-emerald-500/25"
+                        : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border-dashed border-slate-300 dark:border-slate-600 hover:border-emerald-400 dark:hover:border-emerald-500"
+                    }`}
+                    style={{ gap: '6px' }}>
+                    <Tag size={13} /> Others
+                  </button>
+                </div>
+              )}
+              {/* Custom category input */}
+              {showOthers && (
+                <div className="flex items-center mt-3" style={{ gap: '8px' }}>
+                  <input
+                    type="text"
+                    placeholder="Type custom category..."
+                    value={customCat}
+                    onChange={(e) => setCustomCat(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), handleAddCustom())}
+                    className="border-2 border-emerald-300 dark:border-emerald-700 rounded-xl bg-white dark:bg-slate-800/50 text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all duration-200 text-sm"
+                    style={{ flex: 1, padding: '10px 14px' }}
+                    autoFocus
+                  />
+                  <button type="button" onClick={handleAddCustom}
+                    className="inline-flex items-center bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-semibold text-sm transition-all"
+                    style={{ padding: '10px 16px', gap: '6px', flexShrink: 0 }}>
+                    <Plus size={14} /> Add
+                  </button>
                 </div>
               )}
               {form.category.length > 0 && (

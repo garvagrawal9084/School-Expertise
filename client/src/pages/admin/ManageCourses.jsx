@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../../api/api";
 import toast from "react-hot-toast";
-import { Plus, Users, Trash2, UserPlus, BookOpen, Search, AlertTriangle } from "lucide-react";
+import { Plus, Users, Trash2, UserPlus, BookOpen, Search, AlertTriangle, Edit2 } from "lucide-react";
 import SuggestTeacherModal from "../../components/SuggestTeacherModal";
 
 const ManageCourses = () => {
@@ -173,6 +173,14 @@ const ManageCourses = () => {
                   title="Suggest Teachers"
                 >
                   <Users size={14} />
+                </button>
+                <button
+                  onClick={() => navigate(`/admin/edit-course/${course._id}`)}
+                  className="inline-flex items-center justify-center bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-indigo-300 dark:hover:border-indigo-600 transition-all shrink-0"
+                  style={{ width: '38px', height: '38px' }}
+                  title="Edit Course"
+                >
+                  <Edit2 size={14} />
                 </button>
                 <button
                   onClick={() => handleDelete(course._id)}

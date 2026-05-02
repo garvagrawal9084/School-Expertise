@@ -110,7 +110,7 @@ const Signup = () => {
                 <div className="relative" style={{ marginTop: '10px' }}>
                   <User size={16} className="absolute text-slate-400" style={{ left: '14px', top: '50%', transform: 'translateY(-50%)' }} />
                   <input
-                    type="text" required placeholder="John Doe"
+                    type="text" required placeholder="Ashish Sharma"
                     className={inputClass} style={inputStyle}
                     value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })}
                   />

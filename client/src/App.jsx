@@ -18,6 +18,7 @@ import Signup from "./pages/Signup";
 import AdminDashboard from "./pages/admin/Dashboard";
 import ManageCourses from "./pages/admin/ManageCourses";
 import AddCourse from "./pages/admin/AddCourse";
+import EditCourse from "./pages/admin/EditCourse";
 import AssignTeacher from "./pages/admin/AssignTeacher";
 import TeacherRequests from "./pages/admin/TeacherRequests";
 import Teachers from "./pages/admin/Teachers";
@@ -137,6 +138,18 @@ const App = () => {
             user?.role === "ADMIN" ? (
               <AdminLayout>
                 <AddCourse />
+              </AdminLayout>
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/admin/edit-course/:id"
+          element={
+            user?.role === "ADMIN" ? (
+              <AdminLayout>
+                <EditCourse />
               </AdminLayout>
             ) : (
               <Navigate to="/" />

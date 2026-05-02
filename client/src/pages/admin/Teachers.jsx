@@ -83,13 +83,13 @@ const Teachers = () => {
                 />
                 <div className="flex-1 min-w-0">
                   <h3 className="font-bold text-slate-900 dark:text-white truncate">{teacher.name}</h3>
-                  <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium" style={{ marginTop: '2px' }}>Faculty Member</p>
+                  <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium" style={{ marginTop: '2px' }}>{teacher.role || "Lecturer"}</p>
                   <p className="text-xs text-slate-400 truncate" style={{ marginTop: '2px' }}>{teacher.email}</p>
                 </div>
               </div>
 
               <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed flex-1" style={{ marginBottom: '16px' }}>
-                Expert educator contributing to the academic excellence of the platform.
+                {teacher.bio || <span className="italic opacity-60">No bio provided yet.</span>}
               </p>
 
               <div className="flex flex-wrap" style={{ gap: '6px', marginBottom: '20px' }}>

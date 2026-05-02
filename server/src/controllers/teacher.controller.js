@@ -30,6 +30,7 @@ export const getProfile = asyncHandler(async (req, res) => {
       email: teacher.userId.email,
       avatar: teacher.userId.avatar,
       bio: teacher.bio,
+      role: teacher.role || "Lecturer",
       experience: teacher.experience,
       specialization: teacher.specialization
     })
@@ -40,13 +41,14 @@ export const getProfile = asyncHandler(async (req, res) => {
 export const updateProfile = asyncHandler(async (req, res) => {
 
     const userId = req.user._id;
-    const { bio, experience, specialization } = req.body;
+    const { bio, experience, specialization, role } = req.body;
 
     const hasBio = typeof bio === "string" && bio.trim().length > 0;
     const hasExperience = experience !== undefined;
     const hasSpecialization = Array.isArray(specialization) && specialization.length > 0;
+    const hasRole = typeof role === "string" && role.trim().length > 0;
 
-    if (!hasBio && !hasExperience && !hasSpecialization) {
+    if (!hasBio && !hasExperience && !hasSpecialization && !hasRole) {
         throw new ApiError(400, "Nothing to update");
     }
 
@@ -58,6 +60,7 @@ export const updateProfile = asyncHandler(async (req, res) => {
 
     if (hasBio) updates.bio = bio.trim();
     if (hasExperience) updates.experience = experience;
+    if (hasRole) updates.role = role.trim();
     if (hasSpecialization) {
         updates.specialization = specialization.map(s => s.trim());
     }
@@ -136,7 +139,7 @@ export const getTeacherProfile = asyncHandler(async (req, res) => {
 
   // 2️⃣ Get teacher data
   const teacher = await Teacher.findOne({ userId }).select(
-    "bio experience specialization"
+    "bio experience specialization role"
   );
 
   // 3️⃣ Get courses (correct)
@@ -151,9 +154,9 @@ export const getTeacherProfile = asyncHandler(async (req, res) => {
       email: user.email,
       avatar: user.avatar,
       bio: teacher?.bio || "",
+      role: teacher?.role || "Lecturer",
       experience: teacher?.experience || 0,
       specialization: teacher?.specialization || [],
-
       courses
     })
   );

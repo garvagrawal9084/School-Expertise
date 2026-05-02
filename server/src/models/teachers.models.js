@@ -11,7 +11,13 @@ const teacherSchema = new mongoose.Schema({
 
   bio: {
     type: String,
-    maxlength: 300
+    maxlength: 500
+  },
+
+  role: {
+    type: String,
+    enum: ["Professor", "Lecturer", "Associate Professor", "Assistant Professor", "Dean", "Head of Department", "Research Fellow", "Visiting Faculty", "Industry Expert", "Other"],
+    default: "Lecturer"
   },
 
   experience: {

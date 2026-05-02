@@ -6,7 +6,9 @@ import {
   createCourse,
   getCourses,
   deleteCourse,
+  updateCourse,
   assignTeacher,
+  unassignTeacher,
   getPendingRequests,
   approveTeacher,
   rejectTeacher,
@@ -22,7 +24,9 @@ adminRouter.get("/teachers", verifyJWT, verifyAdmin, getTeachers);
 adminRouter.delete("/teachers/:id", verifyJWT, verifyAdmin, deleteTeacher);
 adminRouter.get("/courses", verifyJWT, verifyAdmin, getCourses);
 adminRouter.delete("/courses/:id", verifyJWT, verifyAdmin, deleteCourse);
+adminRouter.put("/courses/:id", verifyJWT, verifyAdmin, updateCourse);
 adminRouter.post("/assign", verifyJWT, verifyAdmin, assignTeacher);
+adminRouter.post("/unassign", verifyJWT, verifyAdmin, unassignTeacher);
 adminRouter.get("/requests", verifyJWT, verifyAdmin, getPendingRequests);
 adminRouter.post("/approve/:id", verifyJWT, verifyAdmin, approveTeacher);
 adminRouter.post("/reject/:id", verifyJWT, verifyAdmin, rejectTeacher);

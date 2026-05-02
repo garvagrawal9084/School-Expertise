@@ -157,11 +157,11 @@ const Home = () => {
         style={{ marginTop: '100px', marginBottom: '60px', paddingTop: '80px', paddingBottom: '80px', paddingLeft: '48px', paddingRight: '48px' }}
       >
         <div>
-          <div className="text-center" style={{ marginBottom: '64px' }}>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white" style={{ marginBottom: '16px' }}>
+          <div style={{ marginBottom: '64px', display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', width: '100%' }}>
+            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white" style={{ marginBottom: '16px', textAlign: 'center' }}>
               Platform Features
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 text-base sm:text-lg max-w-2xl mx-auto">
+            <p className="text-slate-500 dark:text-slate-400 text-base sm:text-lg" style={{ textAlign: 'center', margin: '0 auto', maxWidth: '42rem' }}>
               Designed to empower both institutions and students through modular learning pathways.
             </p>
           </div>

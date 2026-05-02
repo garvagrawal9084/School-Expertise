@@ -22,7 +22,7 @@ const TeacherDashboard = () => {
   const [profile, setProfile] = useState(null);
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ bio: "", experience: "", specialization: "" });
+  const [form, setForm] = useState({ bio: "", experience: "", specialization: "", role: "Lecturer" });
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [updating, setUpdating] = useState(false);
@@ -33,7 +33,7 @@ const TeacherDashboard = () => {
       const res = await API.get("/teacher/me");
       const d = res.data.data;
       setProfile(d);
-      setForm({ bio: d.bio || "", experience: d.experience || "", specialization: d.specialization?.join(", ") || "" });
+      setForm({ bio: d.bio || "", experience: d.experience || "", specialization: d.specialization?.join(", ") || "", role: d.role || "Lecturer" });
     } catch { toast.error("Failed to load profile"); }
   };
 
@@ -51,6 +51,7 @@ const TeacherDashboard = () => {
       await API.put("/teacher/me", {
         bio: form.bio,
         experience: Number(form.experience),
+        role: form.role,
         specialization: form.specialization.split(",").map(s => s.trim()).filter(Boolean),
       });
       toast.success("Profile updated!");
@@ -132,7 +133,8 @@ const TeacherDashboard = () => {
             {/* Name + email */}
             <div className="flex-1" style={{ marginTop: '52px' }}>
               <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{displayName}</h1>
-              <p className="text-slate-500 dark:text-slate-400 text-sm" style={{ marginTop: '4px' }}>{displayEmail}</p>
+              <p className="text-sm font-semibold text-indigo-600 dark:text-indigo-400" style={{ marginTop: '2px' }}>{profile?.role || form.role || "Lecturer"}</p>
+              <p className="text-slate-500 dark:text-slate-400 text-sm" style={{ marginTop: '2px' }}>{displayEmail}</p>
               {avatarFile && (
                 <button
                   onClick={handleAvatarUpload}
@@ -206,6 +208,21 @@ const TeacherDashboard = () => {
               value={form.experience}
               onChange={(e) => setForm({ ...form, experience: e.target.value })}
             />
+          </div>
+
+          {/* Role */}
+          <div style={{ marginBottom: '20px' }}>
+            <label className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Academic Role</label>
+            <select
+              className="w-full border-2 border-slate-200 dark:border-slate-700 rounded-xl bg-white dark:bg-slate-800/50 text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all duration-200 text-sm"
+              style={{ marginTop: '10px', padding: '13px 16px', display: 'block' }}
+              value={form.role}
+              onChange={(e) => setForm({ ...form, role: e.target.value })}
+            >
+              {["Professor","Lecturer","Associate Professor","Assistant Professor","Dean","Head of Department","Research Fellow","Visiting Faculty","Industry Expert","Other"].map(r => (
+                <option key={r} value={r}>{r}</option>
+              ))}
+            </select>
           </div>
 
           {/* Specialization */}
