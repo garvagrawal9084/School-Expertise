@@ -73,7 +73,7 @@ const App = () => {
                 <Courses />
               </MainLayout>
             ) : (
-              <Navigate to="/login" />
+              <Navigate to="/login" replace />
             )
           }
         />
@@ -87,7 +87,7 @@ const App = () => {
                 <Teachers />
               </MainLayout>
             ) : (
-              <Navigate to="/login" />
+              <Navigate to="/login" replace />
             )
           }
         />
@@ -101,7 +101,7 @@ const App = () => {
                 <CourseDetail />
               </MainLayout>
             ) : (
-              <Navigate to="/login" />
+              <Navigate to="/login" replace />
             )
           }
         />
@@ -115,7 +115,7 @@ const App = () => {
                 <CourseTeachers />
               </MainLayout>
             ) : (
-              <Navigate to="/login" />
+              <Navigate to="/login" replace />
             )
           }
         />
@@ -129,7 +129,7 @@ const App = () => {
                 <TeacherProfile />
               </MainLayout>
             ) : (
-              <Navigate to="/login" />
+              <Navigate to="/login" replace />
             )
           }
         />

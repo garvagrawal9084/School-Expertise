@@ -85,7 +85,7 @@ const Teachers = () => {
                 <img src={t.avatar || `https://ui-avatars.com/api/?name=${t.name}&background=6366f1&color=fff&size=56`} alt="avatar" className="rounded-xl object-cover shadow-md border-2 border-white dark:border-slate-800 shrink-0" style={{ width: '56px', height: '56px' }} />
                 <div className="min-w-0 flex-1">
                   <p className="font-bold text-lg text-slate-900 dark:text-white truncate">{t.name}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 truncate">{t.email}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 truncate">{t.role || "Faculty"}</p>
                 </div>
               </div>
               
