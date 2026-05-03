@@ -4,7 +4,8 @@ import {
     updateProfile,
     getMyCourses,
     updateTeacherAvatar,
-    getTeacherProfile
+    getTeacherProfile,
+    getAllTeachers
 } from "../controllers/teacher.controller.js";
 
 import { verifyJWT, verifyTeacher } from "../middlewares/auth.middleware.js";
@@ -31,6 +32,7 @@ teacherRouter.patch(
 );
 
 
+teacherRouter.get("/", getAllTeachers);
 teacherRouter.get("/:id", getTeacherProfile);
 
 export { teacherRouter };

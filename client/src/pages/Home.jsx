@@ -78,7 +78,7 @@ const Home = () => {
             <img 
               src={heroImg} 
               alt="School Expertise Platform Dashboard" 
-              className="w-full object-contain rounded-2xl shadow-2xl shadow-indigo-500/10 border border-slate-200 dark:border-slate-800"
+              className="w-full object-contain"
               style={{ maxHeight: '400px' }}
             />
           </div>

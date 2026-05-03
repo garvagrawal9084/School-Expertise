@@ -8,6 +8,7 @@ import AdminLayout from "./components/layout/AdminLayout";
 
 import Home from "./pages/Home";
 import Courses from "./pages/Courses";
+import Teachers from "./pages/Teachers";
 import CourseDetail from "./pages/CourseDetail";
 import CourseTeachers from "./pages/CourseTeachers";
 import TeacherProfile from "./pages/TeacherProfile";
@@ -21,7 +22,7 @@ import AddCourse from "./pages/admin/AddCourse";
 import EditCourse from "./pages/admin/EditCourse";
 import AssignTeacher from "./pages/admin/AssignTeacher";
 import TeacherRequests from "./pages/admin/TeacherRequests";
-import Teachers from "./pages/admin/Teachers";
+import AdminTeachers from "./pages/admin/Teachers";
 
 
 import TeacherDashboard from "./pages/teacher/TeacherDashboard";
@@ -67,9 +68,27 @@ const App = () => {
         <Route
           path="/courses"
           element={
-            <MainLayout>
-              <Courses />
-            </MainLayout>
+            user ? (
+              <MainLayout>
+                <Courses />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+
+        {/* Teachers */}
+        <Route
+          path="/teachers"
+          element={
+            user ? (
+              <MainLayout>
+                <Teachers />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
 
@@ -77,9 +96,13 @@ const App = () => {
         <Route
           path="/courses/:id"
           element={
-            <MainLayout>
-              <CourseDetail />
-            </MainLayout>
+            user ? (
+              <MainLayout>
+                <CourseDetail />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
 
@@ -101,9 +124,13 @@ const App = () => {
         <Route
           path="/teacher/:id"
           element={
-            <MainLayout>
-              <TeacherProfile />
-            </MainLayout>
+            user ? (
+              <MainLayout>
+                <TeacherProfile />
+              </MainLayout>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
 
@@ -185,7 +212,7 @@ const App = () => {
           element={
             user?.role === "ADMIN" ? (
               <AdminLayout>
-                <Teachers />
+                <AdminTeachers />
               </AdminLayout>
             ) : (
               <Navigate to="/" />

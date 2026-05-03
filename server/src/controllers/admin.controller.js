@@ -99,7 +99,7 @@ export const createCourse = asyncHandler(async (req, res) => {
 export const getCourses = asyncHandler(async (req, res) => {
 
   const courses = await Course.find()
-  .populate("teachers", "name email") 
+  .populate("teachers", "name email avatar") 
   .lean();
 
   return res.status(200).json(

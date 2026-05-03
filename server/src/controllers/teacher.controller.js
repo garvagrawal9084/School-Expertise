@@ -161,3 +161,28 @@ export const getTeacherProfile = asyncHandler(async (req, res) => {
     })
   );
 });
+
+export const getAllTeachers = asyncHandler(async (req, res) => {
+  const teachers = await Teacher.find()
+    .populate("userId", "name email avatar")
+    .select("userId bio role specialization experience")
+    .lean();
+
+  const data = teachers
+    .filter(t => t.userId)
+    .map(t => ({
+      _id: t.userId._id,
+      teacherDocId: t._id,
+      name: t.userId.name,
+      email: t.userId.email,
+      avatar: t.userId.avatar,
+      bio: t.bio || "",
+      role: t.role || "Lecturer",
+      specialization: t.specialization || [],
+      experience: t.experience || 0,
+    }));
+
+  return res.status(200).json(
+    new ApiResponse(200, data, "Fetched all teachers successfully")
+  );
+});
