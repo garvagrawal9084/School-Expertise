@@ -72,6 +72,9 @@ const TeacherProfile = () => {
                   {teacher.role && (
                     <p className="text-sm font-semibold text-indigo-600 dark:text-indigo-400" style={{ marginTop: '4px' }}>{teacher.role}</p>
                   )}
+                  {teacher.email && (
+                    <p className="text-sm text-slate-500 dark:text-slate-400" style={{ marginTop: '4px' }}>{teacher.email}</p>
+                  )}
                   <div className="flex flex-wrap" style={{ gap: '8px', marginTop: '12px' }}>
                     {teacher.specialization?.map((s) => (
                       <span
