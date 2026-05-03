@@ -10,49 +10,12 @@ const courseSchema = new mongoose.Schema(
 
     category: {
       type: [String],
-      enum: [
-        "AI",
-        "ML",
-        "Deep Learning",
-        "NLP",
-
-        "Web Dev",
-        "Frontend",
-        "Backend",
-        "Full Stack",
-        "Mobile App Development",
-
-        "Data Science",
-        "Data Analytics",
-        "Big Data",
-        "Data Engineering",
-
-        "Cloud Computing",
-        "DevOps",
-        "Cyber Security",
-        "Ethical Hacking",
-        "Network Security",
-
-        "Blockchain",
-        "Web3",
-
-        "Software Engineering",
-        "System Design",
-        "Microservices",
-
-        "Database Management",
-        "SQL",
-        "NoSQL",
-
-        "Internet of Things",
-        "Embedded Systems",
-      ],
       required: true,
     },
 
     description: {
       type: String,
-      maxlength: 300,
+      maxlength: 1000,
     },
 
     teachers: [

@@ -30,7 +30,7 @@ const EditCourse = () => {
           category: course.category || []
         });
         setTeachers(course.teachers || []);
-        setCategories(catRes.data?.data || ["AI", "ML", "Deep Learning", "NLP", "Web Dev", "Frontend", "Backend", "Full Stack", "Data Science", "Cloud Computing", "Cyber Security"]);
+        setCategories(catRes.data?.data || ["Artificial Intelligence", "Machine Learning", "Deep Learning", "Natural Language Processing", "Web Dev", "Frontend", "Backend", "Full Stack", "Data Science", "Cloud Computing", "Cyber Security"]);
       } catch (err) {
         console.error(err);
         toast.error("Failed to load course details");

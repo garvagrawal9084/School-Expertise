@@ -275,7 +275,7 @@ export const rejectTeacher = asyncHandler(async (req, res) => {
 
 export const getCategory = (req , res) => {
   const category = [
-    "AI","ML","Deep Learning","NLP",
+    "Artificial Intelligence","Machine Learning","Deep Learning","Natural Language Processing",
     "Web Dev","Frontend","Backend","Full Stack","Mobile App Development",
     "Data Science","Data Analytics","Big Data","Data Engineering",
     "Cloud Computing","DevOps","Cyber Security","Ethical Hacking","Network Security",

@@ -16,7 +16,7 @@ const AddCourse = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try { const res = await API.get("/admin/category"); setCategories(res.data?.data || []); }
-      catch (err) { console.error(err); setCategories(["AI", "ML", "Deep Learning", "NLP", "Web Dev", "Frontend", "Backend", "Full Stack", "Data Science", "Cloud Computing", "Cyber Security"]); }
+      catch (err) { console.error(err); setCategories(["Artificial Intelligence", "Machine Learning", "Deep Learning", "Natural Language Processing", "Web Dev", "Frontend", "Backend", "Full Stack", "Data Science", "Cloud Computing", "Cyber Security"]); }
       finally { setLoadingCats(false); }
     };
     fetchCategories();

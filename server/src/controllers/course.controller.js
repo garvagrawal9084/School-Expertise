@@ -30,7 +30,7 @@ const getTeachersFromCourse = asyncHandler(async (req, res) => {
 const getTeachersByCategory = asyncHandler(async (req, res) => {
     const { category } = req.params;
 
-    const allowedCategories = ["AI", "ML", "Deep Learning", "Web Dev", "Data Science", "Security"];
+    const allowedCategories = ["Artificial Intelligence", "Machine Learning", "Deep Learning", "Web Dev", "Data Science", "Security"];
 
     if (!allowedCategories.includes(category)) {
         throw new ApiError(400, "Invalid category");
