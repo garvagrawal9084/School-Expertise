@@ -78,7 +78,7 @@ const Home = () => {
             <img 
               src={heroImg} 
               alt="School Expertise Platform Dashboard" 
-              className="w-full object-contain rounded-2xl shadow-2xl shadow-indigo-500/10 border border-slate-200 dark:border-slate-800"
+              className="w-full object-contain"
               style={{ maxHeight: '400px' }}
             />
           </div>
@@ -168,13 +168,14 @@ const Home = () => {
 
           <div className="grid sm:grid-cols-2 md:grid-cols-3" style={{ gap: '40px' }}>
             {[
-              { icon: BookOpen, title: "Explore Courses", desc: "Discover specialized modules across diverse academic departments." },
-              { icon: Users, title: "Learn from Teachers", desc: "Engage with verified experts with high mastery in their specific fields." },
-              { icon: TrendingUp, title: "Structured Learning", desc: "Track your developmental progress with precise academic milestones." },
+              { icon: BookOpen, title: "Explore Courses", desc: "Discover specialized modules across diverse academic departments.", path: "/courses" },
+              { icon: Users, title: "Learn from Teachers", desc: "Engage with verified experts with high mastery in their specific fields.", path: "/teachers" },
+              { icon: TrendingUp, title: "Structured Learning", desc: "Track your developmental progress with precise academic milestones.", path: "/teacher/dashboard" },
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-700/50 flex flex-col items-center text-center hover:shadow-lg transition-shadow"
+                onClick={() => feature.path && handleProtectedClick(feature.path)}
+                className="bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-700/50 flex flex-col items-center text-center hover:shadow-lg transition-shadow cursor-pointer"
                 style={{ padding: '56px 40px' }}
               >
                 <div className="w-16 h-16 shrink-0 rounded-2xl bg-white dark:bg-slate-700 shadow-sm border border-slate-100 dark:border-slate-600 flex items-center justify-center" style={{ marginBottom: '24px' }}>

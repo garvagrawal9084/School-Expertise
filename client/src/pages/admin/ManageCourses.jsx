@@ -138,12 +138,24 @@ const ManageCourses = () => {
                 {course.teachers?.length > 0 ? (
                   <div className="flex items-center" style={{ gap: '6px' }}>
                     <div className="flex -space-x-2">
-                      {course.teachers.slice(0, 3).map((_, i) => (
-                        <div
-                          key={i}
-                          className="rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 border-2 border-white dark:border-slate-900 flex items-center justify-center text-[10px] text-white font-bold"
-                          style={{ width: '28px', height: '28px' }}
-                        />
+                      {course.teachers.slice(0, 3).map((teacher, i) => (
+                        teacher.avatar ? (
+                          <img
+                            key={i}
+                            src={teacher.avatar}
+                            alt={teacher.name || "Teacher"}
+                            className="rounded-full border-2 border-white dark:border-slate-900 object-cover"
+                            style={{ width: '28px', height: '28px' }}
+                          />
+                        ) : (
+                          <div
+                            key={i}
+                            className="rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 border-2 border-white dark:border-slate-900 flex items-center justify-center text-[10px] text-white font-bold uppercase"
+                            style={{ width: '28px', height: '28px' }}
+                          >
+                            {teacher.name ? teacher.name.charAt(0) : ""}
+                          </div>
+                        )
                       ))}
                     </div>
                     <span className="text-xs text-slate-500 dark:text-slate-400 font-medium ml-1">

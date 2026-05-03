@@ -18,6 +18,7 @@ const Navbar = ({ isAdmin }) => {
   const navLinks = [
     { label: "Home", path: "/", show: true },
     { label: "Courses", path: "/courses", show: true },
+    { label: "Teachers", path: "/teachers", show: true },
     { label: "Admin", path: "/admin/dashboard", show: user?.role === "ADMIN" },
     { label: "Dashboard", path: "/teacher/dashboard", show: user?.role === "TEACHER" },
   ];
@@ -84,7 +85,9 @@ const Navbar = ({ isAdmin }) => {
                     style={{ top: 'calc(100% + 8px)', width: '220px', padding: '8px 0', boxShadow: '0 10px 40px -10px rgba(0,0,0,0.15)' }}
                   >
                     <div className="border-b border-slate-100 dark:border-slate-700" style={{ padding: '8px 20px 12px', marginBottom: '8px' }}>
-                      <p className="text-sm font-bold text-slate-900 dark:text-white truncate">{user.name}</p>
+                      <p className="text-sm font-bold text-slate-900 dark:text-white truncate">
+                        {user.name} <span className="font-normal text-slate-500 dark:text-slate-400">({user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1).toLowerCase() : "User"})</span>
+                      </p>
                       <p className="text-xs text-slate-500 dark:text-slate-400 truncate" style={{ marginTop: '2px' }}>{user.email}</p>
                     </div>
                     <button 
